@@ -12,6 +12,8 @@ include(__DIR__ . '/../services/RankReward.php');
 
 include(__DIR__ . '/../services/WoocommerceIntegrator.php');
 
+$sponsorId = get_option('mlm_default_sponsor', 'USER1');
+
 $sponsorId = 'USER1';
 $registryDistributorProducts = ['подписка', 'subscription'];
 

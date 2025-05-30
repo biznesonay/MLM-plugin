@@ -211,8 +211,7 @@ class WoocommerceIntegrator
     private function getMetaData(int $postId): array
     {
         global $wpdb;
-        $sql = "select * from wp_postmeta m where m.post_id = {$postId}";
-
+            $sql = "select * from {$wpdb->prefix}postmeta m where m.post_id = {$postId}";
         return $wpdb->get_results($sql, 'ARRAY_A');
     }
 

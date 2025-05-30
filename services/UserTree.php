@@ -41,10 +41,10 @@ class UserTree
         global $wpdb;
 
         $sql = "WITH RECURSIVE rec(id, name, unique_id, sponsor_id, rank) AS ( 
-             SELECT  id, CONCAT(user_name, ' (', rank , ')') as name, unique_id, sponsor_id, rank FROM wp_mlm_users WHERE sponsor_id = '{$uniqueId}'
+             SELECT  id, CONCAT(user_name, ' (', rank , ')') as name, unique_id, sponsor_id, rank FROM {$wpdb->prefix}mlm_users WHERE sponsor_id = '{$uniqueId}'
              UNION ALL
              SELECT u.id, CONCAT(u.user_name, ' (', u.rank , ')') AS name, u.unique_id, u.sponsor_id, u.rank FROM rec 
-             INNER JOIN wp_mlm_users AS u ON rec.unique_id = u.sponsor_id
+             INNER JOIN {$wpdb->prefix}mlm_users AS u ON rec.unique_id = u.sponsor_id
         ) ";
 
         $sql .= "SELECT * FROM rec  ORDER BY id ASC";
@@ -59,11 +59,11 @@ class UserTree
         global $wpdb;
 
         $sql = "WITH RECURSIVE rec(id, name, unique_id, sponsor_id, length) AS ( 
-             SELECT  id, CONCAT(user_name, ' (', rank , ')') as name, unique_id, 0, id FROM wp_mlm_users WHERE unique_id = '{$uniqueId}'
+             SELECT  id, CONCAT(user_name, ' (', rank , ')') as name, unique_id, 0, id FROM {$wpdb->prefix}mlm_users WHERE unique_id = '{$uniqueId}'
              UNION ALL
              SELECT u.id, CONCAT(u.user_name, ' (', u.rank , ')') AS user_name, u.unique_id, 
-             (select uu.id from wp_mlm_users as uu where uu.unique_id =  u.sponsor_id) as sponsor_id, u.id FROM rec 
-             INNER JOIN wp_mlm_users AS u ON rec.unique_id = u.sponsor_id
+             (select uu.id from {$wpdb->prefix}mlm_users as uu where uu.unique_id =  u.sponsor_id) as sponsor_id, u.id FROM rec 
+             INNER JOIN {$wpdb->prefix}mlm_users AS u ON rec.unique_id = u.sponsor_id
         ) ";
 
         $sql .= "SELECT * FROM rec  ORDER BY id ASC";

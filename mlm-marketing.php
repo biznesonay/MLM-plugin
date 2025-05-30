@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: MLM Marketing
-Plugin URI:  http://jhunsinfobay.com/
+Plugin URI:  https://biznesonay.kz
 Description: This plugin for multi lavel marketing and rank basis reward.
-Version:     1.0.1
-Author:      Jhuns Infobay
-Author URI:  http://jhunsinfobay.com/
+Version:     1.0.2
+Author:      BiznesOnay
+Author URI:  https://biznesonay.kz
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -24,6 +24,43 @@ function my_admin_menu()
     add_submenu_page('mlm-overview', __('Structure Panel', 'marketing'), __('Structure Panel', 'marketing'), 'manage_options', 'mlm-structure-panel', 'structure_panel');
     add_submenu_page('mlm-overview', __('Family Panel', 'marketing'), __('Family Panel', 'marketing'), 'manage_options', 'mlm-family-panel', 'family_tree');
     add_submenu_page('mlm-overview', __('Rewards History', 'marketing'), __('Rewards History', 'marketing'), 'manage_options', 'mlm-rewards-history-panel', 'rewards_history');
+    add_submenu_page(
+    'mlm-overview', 
+    __('Settings', 'marketing'), 
+    __('Settings', 'marketing'), 
+    'manage_options', 
+    'mlm-settings', 
+    'mlm_settings_page'
+);
+
+function mlm_settings_page() {
+    if (isset($_POST['submit'])) {
+        update_option('mlm_default_sponsor', sanitize_text_field($_POST['default_sponsor']));
+        update_option('mlm_auto_process_orders', isset($_POST['auto_process']) ? 'yes' : 'no');
+        echo '<div class="notice notice-success"><p>Настройки сохранены!</p></div>';
+    }
+    
+    $default_sponsor = get_option('mlm_default_sponsor', 'USER1');
+    $auto_process = get_option('mlm_auto_process_orders', 'yes');
+    ?>
+    <div class="wrap">
+        <h1>MLM Настройки</h1>
+        <form method="post" action="">
+            <table class="form-table">
+                <tr>
+                    <th>Спонсор по умолчанию</th>
+                    <td><input type="text" name="default_sponsor" value="<?= $default_sponsor ?>"></td>
+                </tr>
+                <tr>
+                    <th>Автоматически обрабатывать заказы</th>
+                    <td><input type="checkbox" name="auto_process" <?= $auto_process == 'yes' ? 'checked' : '' ?>></td>
+                </tr>
+            </table>
+            <?php submit_button(); ?>
+        </form>
+    </div>
+    <?php
+}
 //    add_submenu_page('mlm-overview', __('Parser', 'marketing'), __('Parser', 'marketing'), 'manage_options', 'parser', 'parser');
     add_submenu_page('mlm-overview', __('Date of Rank’s change', 'marketing'), __('Date of Rank’s change', 'marketing'), 'manage_options', 'rank', 'rank');
 }
@@ -922,4 +959,86 @@ function reward_history()
 
     echo json_encode($response);
     wp_die();
+}
+
+// WooCommerce hooks для автоматической обработки заказов
+add_action('woocommerce_order_status_completed', 'mlm_process_completed_order');
+add_action('woocommerce_payment_complete', 'mlm_process_completed_order');
+
+function mlm_process_completed_order($order_id) {
+    // Получаем заказ
+    $order = wc_get_order($order_id);
+    if (!$order) return;
+    
+    // Получаем ID пользователя
+    $user_id = $order->get_user_id();
+    if (!$user_id) return;
+    
+    // Проверяем, обработан ли уже этот заказ
+    global $wpdb;
+    $existing = $wpdb->get_var($wpdb->prepare(
+        "SELECT id FROM {$wpdb->prefix}mlm_transactions WHERE post_id = %d",
+        $order_id
+    ));
+    
+    if ($existing) return; // Заказ уже обработан
+    
+    // Получаем сумму заказа
+    $total = $order->get_total();
+    $user_unique_id = 'USER' . $user_id;
+    
+    // Проверяем, есть ли пользователь в MLM системе
+    $mlm_user = $wpdb->get_var($wpdb->prepare(
+        "SELECT id FROM {$wpdb->prefix}mlm_users WHERE user_id = %d",
+        $user_id
+    ));
+    
+    if (!$mlm_user) {
+        // Регистрируем пользователя в MLM системе
+        include_once plugin_dir_path(__FILE__) . 'services/RegisterUser.php';
+        $registry = new RegisterUser();
+        
+        $user = get_userdata($user_id);
+        $billing_phone = $order->get_billing_phone();
+        $billing_city = $order->get_billing_city();
+        
+        // Получаем ID города
+        $city_id = 22; // По умолчанию "Другой город"
+        $cities = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mlm_city", ARRAY_A);
+        foreach ($cities as $city) {
+            if (mb_strtolower($city['name']) == mb_strtolower($billing_city)) {
+                $city_id = $city['id'];
+                break;
+            }
+        }
+        
+        $registry->register(
+            $user_id,
+            $user_unique_id,
+            $order->get_billing_first_name(),
+            $order->get_billing_last_name(),
+            $billing_phone,
+            $city_id,
+            'USER1', // Спонсор по умолчанию
+            $user->user_email
+        );
+    }
+    
+    // Обрабатываем транзакцию через RankReward
+    include_once plugin_dir_path(__FILE__) . 'services/RankDB.php';
+    include_once plugin_dir_path(__FILE__) . 'helpers/RankHelper.php';
+    include_once plugin_dir_path(__FILE__) . 'services/Reward.php';
+    include_once plugin_dir_path(__FILE__) . 'services/RankReward.php';
+    
+    $rankReward = new RankReward();
+    $rankReward->calculate($total, $user_unique_id);
+    
+    // Сохраняем post_id для избежания дублирования
+    $wpdb->update(
+        "{$wpdb->prefix}mlm_transactions",
+        array('post_id' => $order_id),
+        array('tran_user_id' => $user_unique_id),
+        array('%d'),
+        array('%s')
+    );
 }
