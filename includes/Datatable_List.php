@@ -6,13 +6,18 @@ class Datatable_List
 {
 
     public function getUserByPhone($phone)
-    {
-        global $wpdb;
-        $sql = "SELECT * FROM {$wpdb->prefix}users WHERE user_phone = '{$phone}'";
-        $result = $wpdb->get_results($sql, 'ARRAY_A');
+{
+    global $wpdb;
+    
+    // Очищаем номер от лишних символов
+    $phone = preg_replace('/[^0-9+]/', '', $phone);
+    
+    // Проверяем в обеих таблицах
+    $sql = "SELECT * FROM {$wpdb->prefix}users WHERE user_login = %s OR user_phone = %s LIMIT 1";
+    $result = $wpdb->get_results($wpdb->prepare($sql, $phone, $phone), 'ARRAY_A');
 
-        return $result ? $result[0] : [];
-    }
+    return $result ? $result[0] : [];
+}
 
     public function get_all_data($table)
     {
@@ -123,74 +128,93 @@ class Datatable_List
     }
 
     public function registerUser($formField = array())
-    {
-        $register_details = $this->register_user(
-            $formField['mlm_distributor_email'] ?? null,
-            $formField['mlm_distributor_password'] ?? null,
-            $formField['mlm_distributor_name'],
-            $formField['mlm_distributor_sponsor'],
-            $formField['mlm_distributor_phone'],
-            $formField['city_id']
-        );
-        return $register_details;
+{
+    $register_details = $this->register_user(
+        $formField['mlm_distributor_email'] ?? null,
+        null, // Пароль теперь не передается
+        $formField['mlm_distributor_name'],
+        $formField['mlm_distributor_sponsor'],
+        $formField['mlm_distributor_phone'],
+        $formField['city_id']
+    );
+    return $register_details;
+}
+
+private function register_user($email, $password, $name, $sponsorid, $phone, $cityId)
+{
+    global $wpdb;
+    $result = null;
+
+    $phoneNumber = preg_replace('![^0-9]+[+]*!', '', $phone);
+    $phoneNumber = $phoneNumber ? '+' . $phoneNumber : null;
+    
+    // Проверяем существование номера
+    if ($this->getUserByPhone($phoneNumber)) {
+        $errors['error'] = __('Phone already exits', 'marketing');
+        return $errors;
     }
+    
+    try {
+        // Генерируем случайный пароль если не передан
+        if (empty($password)) {
+            $password = wp_generate_password(12, false);
+        }
+        
+        $user_data = array(
+            'user_login' => $phoneNumber,
+            'user_phone' => $phoneNumber,
+            'user_pass' => $password,
+            'user_email' => $email ?: $phoneNumber . '@temp.com', // Временный email если не указан
+            'first_name' => $name,
+            'last_name' => '',
+            'nickname' => '',
+            'role' => 'distributor',
+        );
 
-    private function register_user($email, $password, $name, $sponsorid, $phone, $cityId)
-    {
-        global $wpdb;
-        $result = null;
+        $user_id = wp_insert_user($user_data);
 
-        $phoneNumber = preg_replace('![^0-9]+[+]*!', '', $phone);
-        $phoneNumber = $phoneNumber ? '+' . $phoneNumber : null;
-        if ($this->getUserByPhone($phoneNumber)) {
-            $errors['error'] = __('Phone already exits', 'marketing');
+        if (is_wp_error($user_id)) {
+            $errors['error'] = $user_id->get_error_message();
             return $errors;
-        } else {
-            $user_data = array(
-                'user_login' => $phoneNumber,
-                'user_phone' => $phoneNumber,
-                'user_pass' => $password,
-                'first_name' => $name,
-                'last_name' => '',
-                'nickname' => '',
-                'role' => 'distributor',
-            );
-
-            $user_id = wp_insert_user($user_data);
-
-            if ($user_id) {
-                $this->updateOrCreateUserPhone($user_id, $phoneNumber);
-                wp_new_user_notification($user_id);
-                //wp_set_password($password, $user_id);
-                $last_uniqid = 'USER' . $user_id;
-
-                $insert_data = array(
-                    'unique_id' => $last_uniqid,
-                    'user_id' => $user_id,
-                    'user_name' => $name,
-                    'user_phone' => $phoneNumber,
-                    'sponsor_id' => $sponsorid,
-                    'rank' => '0',
-                    'role' => 'distributor',
-                    'date' => strtotime("now"),
-                    'city_id' => $cityId
-                );
-
-                $this->insert_data('mlm_users', $insert_data);
-                $insert_data2 = array('mlm_user_id' => $last_uniqid);
-                $this->insert_data('mlm_rewards', $insert_data2);
-
-                $date = new \DateTime();
-                $sr_at = $date->modify('+30 day')->format('Y-m-d');
-
-                $this->updateData('mlm_users', ['sr_at' => $sr_at], ['unique_id' => $sponsorid]);
-
-                $result['userid'] = $user_id;
-            }
         }
 
-        return $result;
+        if ($user_id) {
+            $this->updateOrCreateUserPhone($user_id, $phoneNumber);
+            wp_new_user_notification($user_id, null, 'both');
+            
+            $last_uniqid = 'USER' . $user_id;
+
+            $insert_data = array(
+                'unique_id' => $last_uniqid,
+                'user_id' => $user_id,
+                'user_name' => $name,
+                'user_phone' => $phoneNumber,
+                'sponsor_id' => $sponsorid,
+                'rank' => '0',
+                'role' => 'distributor',
+                'date' => strtotime("now"),
+                'city_id' => $cityId
+            );
+
+            $this->insert_data('mlm_users', $insert_data);
+            
+            $insert_data2 = array('mlm_user_id' => $last_uniqid);
+            $this->insert_data('mlm_rewards', $insert_data2);
+
+            $date = new \DateTime();
+            $sr_at = $date->modify('+30 day')->format('Y-m-d');
+
+            $this->updateData('mlm_users', ['sr_at' => $sr_at], ['unique_id' => $sponsorid]);
+
+            $result['userid'] = $user_id;
+        }
+    } catch (Exception $e) {
+        $errors['error'] = 'Ошибка регистрации: ' . $e->getMessage();
+        return $errors;
     }
+
+    return $result;
+}
 
 
     public function get_all_current_distrubutor($table)

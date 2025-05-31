@@ -54,10 +54,13 @@ class RegisterUser
     }
 
     private function createWordpressUser(string $phone, $firstName, string $lastName, $email) {
+        // Генерируем случайный пароль
+        $random_password = wp_generate_password(12, false);
+        
         $user_data = [
             'user_login' => $phone,
             'user_phone' => $phone,
-            'user_pass' => $phone,
+            'user_pass' => $random_password, // Используем сгенерированный пароль
             'user_email' => $email,
             'first_name' => $firstName,
             'last_name' => $lastName,
@@ -66,6 +69,10 @@ class RegisterUser
         ];
 
         $userId = wp_insert_user($user_data);
+        
+        // Отправляем пользователю email с паролем
+        wp_new_user_notification($userId, null, 'both');
+        
         var_dump('Wordpress user id = ' . $userId);
 
         return $userId;

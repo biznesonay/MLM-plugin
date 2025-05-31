@@ -3,7 +3,7 @@
 Plugin Name: MLM Marketing
 Plugin URI:  https://biznesonay.kz
 Description: This plugin for multi lavel marketing and rank basis reward.
-Version:     1.0.2
+Version:     1.0.4
 Author:      BiznesOnay
 Author URI:  https://biznesonay.kz
 License:     GPL2
@@ -656,13 +656,14 @@ add_action('admin_post_nopriv_mlm_frontend_user_register', 'frontendRegister');
 
 function frontendRegister()
 {
-    if ($_POST['us_name'] == '' || $_POST['us_email'] == '' || $_POST['us_password'] == '' || $_POST['us_sponsor_id'] == '') {
+    // Удалена проверка пароля из условия
+    if ($_POST['us_name'] == '' || $_POST['us_email'] == '' || $_POST['us_sponsor_id'] == '') {
         wp_redirect($_POST['us_return_url'] . '?fieldempty=true');
     } else {
         $datatable = new Datatable_List();
+        // Удален пароль из массива
         $postArr = array(
             'mlm_distributor_email' => $_POST['us_email'],
-            'mlm_distributor_password' => $_POST['us_password'],
             'mlm_distributor_name' => $_POST['us_name'],
             'mlm_distributor_sponsor' => $_POST['us_sponsor_id'],
             'mlm_distributor_phone' => $_POST['us_phone'],
@@ -680,7 +681,8 @@ function frontendRegister()
         if (isset($register['error'])) {
             wp_redirect($url . '?registererror=true');
         } else {
-            wp_redirect($url . '?registersuccess=true');
+            // Изменено перенаправление на страницу профиля
+            wp_redirect('https://asyllike.com/');
         }
     }
 }
@@ -1041,4 +1043,36 @@ function mlm_process_completed_order($order_id) {
         array('%d'),
         array('%s')
     );
+}
+
+// AJAX проверка номера телефона
+add_action('wp_ajax_check_phone_exists', 'check_phone_exists');
+add_action('wp_ajax_nopriv_check_phone_exists', 'check_phone_exists');
+
+function check_phone_exists() {
+    $phone = isset($_POST['phone']) ? sanitize_text_field($_POST['phone']) : '';
+    
+    if (empty($phone)) {
+        wp_send_json(['exists' => false]);
+        return;
+    }
+    
+    // Очищаем номер телефона от лишних символов
+    $phone = preg_replace('/[^0-9+]/', '', $phone);
+    
+    global $wpdb;
+    $exists = $wpdb->get_var($wpdb->prepare(
+        "SELECT COUNT(*) FROM {$wpdb->prefix}users WHERE user_login = %s OR user_phone = %s",
+        $phone, $phone
+    ));
+    
+    // Также проверяем в таблице mlm_users
+    if (!$exists) {
+        $exists = $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM {$wpdb->prefix}mlm_users WHERE user_phone = %s",
+            $phone
+        ));
+    }
+    
+    wp_send_json(['exists' => $exists > 0]);
 }
