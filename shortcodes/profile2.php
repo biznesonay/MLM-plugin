@@ -35,10 +35,12 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
     }
 
     #tree-container {
-        padding: 20px;
-        height: 85%;
+        height: 600px;
         width: 100%;
-        overflow-x: hidden;
+        overflow: auto;
+        border: 1px solid #e3e3e3;
+        position: relative;
+        background-color: #f9f9f9;
     }
 
     @media only screen and (max-width: 533px) {
@@ -61,6 +63,7 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
 
         #tree-container {
             padding: 5px;
+            height: 400px;
         }
     }
 </style>
@@ -197,8 +200,8 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
     </div>
 
     <div class="user-child">
+        <h1><?php _e('Family Panel', 'marketing') ?></h1>
         <div id="tree-container"></div>
-
     </div>
 </div>
 
@@ -342,4 +345,48 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
     });
 
     const treeData = treeList;
+
+    // Переопределяем размеры для дерева после загрузки dndTree.js
+    jQuery(window).on('load', function() {
+        setTimeout(function() {
+            // Получаем размеры контейнера
+            var containerEl = document.getElementById('tree-container');
+            if (!containerEl) return;
+            
+            var containerWidth = containerEl.offsetWidth;
+            var containerHeight = 600;
+            
+            // Обновляем размеры viewer для dndTree
+            if (typeof viewerWidth !== 'undefined' && typeof viewerHeight !== 'undefined') {
+                viewerWidth = containerWidth;
+                viewerHeight = containerHeight;
+            }
+            
+            // Пересоздаем дерево с новыми размерами
+            if (typeof tree !== 'undefined' && typeof root !== 'undefined') {
+                tree.size([containerHeight - 100, containerWidth - 200]);
+                
+                // Обновляем и центрируем
+                if (typeof update === 'function' && typeof centerNode === 'function') {
+                    update(root);
+                    
+                    // Центрируем корневой узел
+                    var scale = 1;
+                    var x = -root.y0;
+                    var y = -root.x0;
+                    x = x * scale + containerWidth / 2;
+                    y = y * scale + containerHeight / 2;
+                    
+                    d3.select("#tree-container svg g").transition()
+                        .duration(750)
+                        .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
+                    
+                    if (typeof zoomListener !== 'undefined') {
+                        zoomListener.scale(scale);
+                        zoomListener.translate([x, y]);
+                    }
+                }
+            }
+        }, 1500); // Даем время загрузиться dndTree.js
+    });
 </script>

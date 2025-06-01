@@ -3,7 +3,7 @@
 Plugin Name: MLM Marketing
 Plugin URI:  https://biznesonay.kz
 Description: This plugin for multi lavel marketing and rank basis reward.
-Version:     1.0.6
+Version:     1.0.7
 Author:      BiznesOnay
 Author URI:  https://biznesonay.kz
 License:     GPL2
