@@ -257,10 +257,10 @@ private function register_user($email, $password, $name, $sponsorid, $phone, $ci
     {
         global $wpdb;
 
-        $sql = "select r.*, u.user_name from {$wpdb->prefix}mlm_users_rank as r  inner join {$wpdb->prefix}mlm_users u on r.mlm_user_id = u.id";
+        $sql = "SELECT r.*, u.user_name FROM {$wpdb->prefix}mlm_users_rank AS r INNER JOIN {$wpdb->prefix}mlm_users u ON r.unique_id = u.unique_id";
 
         if ($uniqueId) {
-            $sql .= ' where unique_id = "'. $uniqueId . '"';
+            $sql .= " WHERE r.unique_id = '" . esc_sql($uniqueId) . "'";
         }
 
         $result = $wpdb->get_results($sql, 'ARRAY_A');

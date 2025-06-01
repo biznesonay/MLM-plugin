@@ -10,7 +10,8 @@ $user = $datatable->get_all_cond_data('mlm_users', $condition);
 $condition2 = "mlm_user_id='" . $user[0]->unique_id . "'";
 $reword = $datatable->get_all_cond_data('mlm_rewards', $condition2);
 $users = UserTree::getUserChildren('USER' . $userId);
-$rank = $datatable->getAllUserRank();
+// Изменено: добавлен параметр для фильтрации по текущему пользователю
+$rank = $datatable->getAllUserRank('USER' . $userId);
 $reward = $datatable->getUserRewardNotification('USER' . $userId)
 ?>
 
