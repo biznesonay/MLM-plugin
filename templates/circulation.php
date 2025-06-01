@@ -109,9 +109,9 @@ $results = $datatable->get_all_transuctions();
                 <td><?= $i; ?></td>
                 <td><?= $result->unique_id; ?></td>
                 <td><?= $result->user_name; ?></td>
-                <td><?= $result->post_id ? _e('site', 'marketing') : _e('direct', 'marketing'); ?></td>
+                <td><?= $result->post_id ? __('site', 'marketing') : __('direct', 'marketing'); ?></td>
                 <td><?= $result->amount . ' c.u.'; ?></td>
-                <td><?= $date->format('F j, Y H:i:s'); ?></td>
+                <td data-order="<?= $result->transuction_date; ?>"><?= $date->format('F j, Y H:i:s'); ?></td>
             </tr>
             <?php $i++;
         } ?>
@@ -154,6 +154,13 @@ $results = $datatable->get_all_transuctions();
     jQuery(document).ready(function () {
         jQuery('.ui.dropdown').dropdown();
         jQuery('#transaction').DataTable({
+            order: [[5, 'desc']], // Сортировка по дате по умолчанию
+            columnDefs: [
+                {
+                    targets: 5, // Колонка с датой
+                    type: 'num' // Используем числовую сортировку для timestamp
+                }
+            ],
             language: {
                 "search": "<?php _e('Search:', 'marketing') ?>",
                 "lengthMenu": "<?php _e('Show _MENU_ entries', 'marketing') ?>",

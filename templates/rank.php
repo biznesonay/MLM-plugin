@@ -55,13 +55,14 @@ $data = $datatable->getAllUserRank();
         foreach ($data as $k => $item) : 
             $date = new DateTime($item['created_at']);
             $date->setTimezone($timezone);
+            $timestamp = $date->getTimestamp();
         ?>
             <tr id="trr<?= $item['id']; ?>">
                 <td><?= $k + 1; ?></td>
                 <td><?= $item['unique_id']; ?></td>
                 <td><?= $item['user_name']; ?></td>
                 <td><?= $item['rank_id']; ?></td>
-                <td><?= $date->format('F j, Y H:i:s') ?></td>
+                <td data-order="<?= $timestamp; ?>"><?= $date->format('F j, Y H:i:s') ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>
@@ -80,7 +81,13 @@ $data = $datatable->getAllUserRank();
 <script>
     jQuery(document).ready(function () {
         jQuery('#rank').DataTable({
-            "order": [[ 0, "desc" ]], // Сортировка по первому столбцу (Sl no) по убыванию
+            "order": [[ 4, "desc" ]], // Сортировка по дате по умолчанию
+            columnDefs: [
+                {
+                    targets: 4, // Колонка с датой
+                    type: 'num' // Используем числовую сортировку для timestamp
+                }
+            ],
             language: {
                 "search": "<?php _e('Search:', 'marketing') ?>",
                 "lengthMenu": "<?php _e('Show _MENU_ entries', 'marketing') ?>",

@@ -3,7 +3,7 @@
 Plugin Name: MLM Marketing
 Plugin URI:  https://biznesonay.kz
 Description: This plugin for multi lavel marketing and rank basis reward.
-Version:     1.0.8.1
+Version:     1.0.8.3
 Author:      BiznesOnay
 Author URI:  https://biznesonay.kz
 License:     GPL2
@@ -870,6 +870,8 @@ function editDistributor()
 }
 
 
+// Замените существующие функции transactions() и reward_history() на эти версии:
+
 add_action('wp_ajax_nopriv_transactions', 'transactions');
 add_action('wp_ajax_transactions', 'transactions');
 
@@ -887,9 +889,18 @@ function transactions()
     $columnSortOrder = $_POST['order'][0]['dir']; // asc or desc
     $searchValue = $_POST['search']['value']; // Search value
 
+    // Маппинг имен колонок для правильной сортировки
+    $columns = array(
+        0 => 'id',
+        1 => 'amount',
+        2 => 'date'
+    );
+    
+    $orderColumn = isset($columns[$columnIndex]) ? $columns[$columnIndex] : 'id';
+
     $searchQuery = " ";
     if ($searchValue != '') {
-        $searchQuery = " and amount = " . $searchValue . "";
+        $searchQuery = " and (amount LIKE '%" . esc_sql($searchValue) . "%' OR id LIKE '%" . esc_sql($searchValue) . "%')";
     }
 
     # Total number of records without filtering
@@ -902,7 +913,7 @@ function transactions()
 
     # Fetch data
     $sql = "SELECT * FROM {$wpdb->prefix}mlm_transactions where tran_user_id = '{$userId}'" . $searchQuery;
-    $sql .= " order by {$columnName} {$columnSortOrder} limit {$startPage}, {$perPage} ";
+    $sql .= " order by {$orderColumn} {$columnSortOrder} limit {$startPage}, {$perPage} ";
     $transactions = $wpdb->get_results($sql, 'ARRAY_A');
 
     $response = array(
@@ -917,7 +928,7 @@ function transactions()
 }
 
 
-add_action('wp_ajax_nopriv_transactions', 'reward_history');
+add_action('wp_ajax_nopriv_reward_history', 'reward_history');
 add_action('wp_ajax_reward_history', 'reward_history');
 
 function reward_history()
@@ -934,9 +945,19 @@ function reward_history()
     $columnSortOrder = $_POST['order'][0]['dir']; // asc or desc
     $searchValue = $_POST['search']['value']; // Search value
 
+    // Маппинг имен колонок для правильной сортировки
+    $columns = array(
+        0 => 'id',
+        1 => 'amount',
+        2 => 'after_rewords_balance',
+        3 => 'created_at'
+    );
+    
+    $orderColumn = isset($columns[$columnIndex]) ? $columns[$columnIndex] : 'id';
+
     $searchQuery = " ";
     if ($searchValue != '') {
-        $searchQuery = " and amount = " . $searchValue . "";
+        $searchQuery = " and (amount LIKE '%" . esc_sql($searchValue) . "%' OR after_rewords_balance LIKE '%" . esc_sql($searchValue) . "%')";
     }
 
     # Total number of records without filtering
@@ -949,7 +970,7 @@ function reward_history()
 
     # Fetch data
     $sql = "SELECT * FROM {$wpdb->prefix}mlm_rewards_history where user_id = '{$userId}'" . $searchQuery;
-    $sql .= " order by {$columnName} {$columnSortOrder} limit {$startPage}, {$perPage} ";
+    $sql .= " order by {$orderColumn} {$columnSortOrder} limit {$startPage}, {$perPage} ";
     $transactions = $wpdb->get_results($sql, 'ARRAY_A');
 
     $response = array(

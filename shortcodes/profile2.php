@@ -267,16 +267,23 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
         jQuery('#personal-transaction').DataTable({
             processing: true,
             serverSide: true,
+            ordering: true,
+            order: [[0, 'desc']],
             serverMethod: 'post',
             ajax: {
                 'url': adminAjax + '?action=transactions'
             },
             columns: [
-                {data: 'id'},
-                {data: 'amount'},
+                {data: 'id', orderable: true},
+                {data: 'amount', orderable: true},
                 {
-                    data: function (data) {
-                        return dateFormat(data.date);
+                    data: 'date',
+                    orderable: true,
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            return dateFormat(data);
+                        }
+                        return data;
                     }
                 },
             ],
@@ -298,16 +305,37 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
         jQuery('#rewards-history').DataTable({
             processing: true,
             serverSide: true,
+            ordering: true,
+            order: [[0, 'desc']],
             serverMethod: 'post',
             ajax: {
                 'url': adminAjax + '?action=reward_history'
             },
             columns: [
-                {data: 'id'},
-                {data: 'amount'},
-                {data: 'after_rewords_balance'},
-                {data: 'created_at'},
+                {data: 'id', orderable: true},
+                {data: 'amount', orderable: true},
+                {data: 'after_rewords_balance', orderable: true},
+                {data: 'created_at', orderable: true},
             ],
+            language: {
+                "search": "<?php _e('Search:', 'marketing') ?>",
+                "lengthMenu": "<?php _e('Show _MENU_ entries', 'marketing') ?>",
+                "info": "<?php _e('Showing _START_ to _END_ of _TOTAL_ entries', 'marketing') ?>",
+                "infoEmpty": "<?php _e('Showing 0 to 0 of 0 entries', 'marketing');?>",
+                "emptyTable": "<?php _e('No data available in table', 'marketing'); ?>",
+                "paginate": {
+                    "first": "<?php _e('First', 'marketing') ?>",
+                    "previous": "<?php _e('Previous', 'marketing'); ?>",
+                    "next": "<?php _e('Next', 'marketing') ?>",
+                    "last": "<?php _e('Last', 'marketing') ?>",
+                },
+            }
+        });
+
+        // DataTable для таблицы рангов - не серверная
+        jQuery('#rank').DataTable({
+            ordering: true,
+            order: [[0, 'desc']],
             language: {
                 "search": "<?php _e('Search:', 'marketing') ?>",
                 "lengthMenu": "<?php _e('Show _MENU_ entries', 'marketing') ?>",
