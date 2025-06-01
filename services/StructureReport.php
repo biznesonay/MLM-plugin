@@ -95,7 +95,7 @@ class StructureReport
         global $wpdb;
         $prefix = $wpdb->prefix;
 
-        $sql = "SELECT u.*, r.pcc, r.scc, r.dr, r.sr, r.mr, r.br, us.user_name sponsor_name FROM {$prefix}mlm_users as u 
+        $sql = "SELECT u.*, r.pcc, r.scc, r.dr, r.sr, r.mr, r.br, r.br_car, us.user_name sponsor_name FROM {$prefix}mlm_users as u 
                 left join {$prefix}mlm_users us ON us.unique_id = u.sponsor_id
                 inner join {$prefix}mlm_rewards AS r ON r.mlm_user_id = u.unique_id
                 WHERE r.dr > 0 or r.sr > 0 or r.mr > 0";

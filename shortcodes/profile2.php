@@ -154,7 +154,7 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
     </div>
 
     <div class="rank">
-        <h1><?php _e('Date of Rank’s change', 'marketing') ?></h1>
+        <h1><?php _e('Date of Rank\'s change', 'marketing') ?></h1>
 
         <table id="rank" class="ui celled table" style="width:100%">
             <thead>
@@ -167,13 +167,19 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($rank as $k => $item) {  ?>
+            <?php 
+            $timezone = new DateTimeZone('Asia/Almaty');
+            $i = 1;
+            foreach ($rank as $k => $item) {  
+                $date = new DateTime($item['created_at']);
+                $date->setTimezone($timezone);
+            ?>
                 <tr id="trr<?= $item['id']; ?>">
                     <td><?= $k+1; ?></td>
                     <td><?= $item['unique_id']; ?></td>
                     <td><?= $item['user_name']; ?></td>
                     <td><?= $item['rank_id']; ?></td>
-                    <td><?= \DateTime::createFromFormat('Y-m-d H:i:s', $item['created_at'])->format('F j, Y H:i:s') ?></td>
+                    <td><?= $date->format('F j, Y H:i:s') ?></td>
                 </tr>
                 <?php $i++; } ?>
             </tbody>
@@ -200,13 +206,34 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
     const adminAjax = "<?= admin_url('admin-ajax.php'); ?>";
 
     document.addEventListener("DOMContentLoaded",function () {
+        // Часовой пояс Алматы
+        const almatyTimeZone = { timeZone: 'Asia/Almaty' };
+        
         function addZero(strNumber) {
             return (strNumber < 10 ? "0" + strNumber : strNumber);
         }
 
         function dateFormat(timestamp) {
             const date = new Date(timestamp * 1000);
-            return addZero(date.getDate()) + '.' + addZero(date.getUTCMonth() + 1) + '.' + date.getFullYear() + ' ' + addZero(date.getHours()) + ':' + addZero(date.getMinutes()) + ':' + addZero(date.getSeconds());
+            // Форматируем дату для часового пояса Алматы
+            const options = {
+                ...almatyTimeZone,
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            
+            const parts = new Intl.DateTimeFormat('en-US', options).formatToParts(date);
+            const values = {};
+            parts.forEach(part => {
+                values[part.type] = part.value;
+            });
+            
+            return `${values.day}.${values.month}.${values.year} ${values.hour}:${values.minute}:${values.second}`;
         }
 
         const id = jQuery('input[name="login_user_id"]').val();

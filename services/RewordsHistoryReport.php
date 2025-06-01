@@ -50,13 +50,18 @@ class RewordsHistoryReport
         }
 
         $i = 2;
+        $timezone = new DateTimeZone('Asia/Almaty');
+        
         foreach ($data as $key => $val) {
+            $date = new DateTime($val['created_at']);
+            $date->setTimezone($timezone);
+            
             $sheet->setCellValue('A' . $i, $key + 1);
             $sheet->setCellValue('B' . $i, $val['unique_id']);
             $sheet->setCellValue('C' . $i, $val['user_name']);
             $sheet->setCellValue('D' . $i, $val['amount']);
             $sheet->setCellValue('E' . $i, $val['after_rewords_balance']);
-            $sheet->setCellValue('F' . $i,  \DateTime::createFromFormat('Y-m-d H:i:s', $val['created_at'])->format('F j, Y H:i:s') );
+            $sheet->setCellValue('F' . $i, $date->format('F j, Y H:i:s'));
             $i++;
         }
     }

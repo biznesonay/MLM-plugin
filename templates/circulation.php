@@ -41,7 +41,7 @@ $results = $datatable->get_all_transuctions();
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=rank'; ?>">
-                    <?php _e('Date of Rank’s change', 'marketing') ?>
+                    <?php _e('Date of Rank\'s change', 'marketing') ?>
                 </a>
             </li>
         </ul>
@@ -97,15 +97,21 @@ $results = $datatable->get_all_transuctions();
         </tr>
         </thead>
         <tbody>
-        <?php $i = 1;
-        foreach ($results as $result) { ?>
+        <?php 
+        $i = 1;
+        $timezone = new DateTimeZone('Asia/Almaty');
+        foreach ($results as $result) { 
+            $date = new DateTime();
+            $date->setTimestamp($result->transuction_date);
+            $date->setTimezone($timezone);
+        ?>
             <tr id="trr<?= $result->transuction_id; ?>">
                 <td><?= $i; ?></td>
                 <td><?= $result->unique_id; ?></td>
                 <td><?= $result->user_name; ?></td>
                 <td><?= $result->post_id ? _e('site', 'marketing') : _e('direct', 'marketing'); ?></td>
                 <td><?= $result->amount . ' c.u.'; ?></td>
-                <td><?= date('F j, Y H:i:s', $result->transuction_date); ?></td>
+                <td><?= $date->format('F j, Y H:i:s'); ?></td>
             </tr>
             <?php $i++;
         } ?>

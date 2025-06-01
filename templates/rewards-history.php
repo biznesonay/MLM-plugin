@@ -33,7 +33,7 @@ $rewardsHistory = $datatable->getAllRewardsHistory();
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=rank'; ?>">
-                    <?php _e('Date of Rank’s change', 'marketing') ?>
+                    <?php _e('Date of Rank\'s change', 'marketing') ?>
                 </a>
             </li>
         </ul>
@@ -73,14 +73,20 @@ $rewardsHistory = $datatable->getAllRewardsHistory();
         </tr>
         </thead>
         <tbody>
-        <?php $i=1; foreach ($rewardsHistory as $item) {  ?>
+        <?php 
+        $i=1; 
+        $timezone = new DateTimeZone('Asia/Almaty');
+        foreach ($rewardsHistory as $item) {
+            $date = new DateTime($item->created_at);
+            $date->setTimezone($timezone);
+        ?>
             <tr id="trr<?= $item->id; ?>">
                 <td><?= $i; ?></td>
                 <td><?= $item->user_id; ?></td>
                 <td><?= $item->user_name; ?></td>
                 <td><?= $item->amount; ?></td>
                 <td><?= $item->after_rewords_balance; ?></td>
-                <td><?= \DateTime::createFromFormat('Y-m-d H:i:s', $item->created_at)->format('F j, Y H:i:s') ?></td>
+                <td><?= $date->format('F j, Y H:i:s') ?></td>
             </tr>
             <?php $i++; } ?>
         </tbody>

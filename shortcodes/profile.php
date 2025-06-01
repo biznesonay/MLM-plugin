@@ -7,6 +7,9 @@
     $condition3 = "tran_user_id='" . $user[0]->unique_id . "'";
     $transactions = $datatable->get_all_cond_data('mlm_transactions', $condition3);
     $rewardsHistory = $datatable->getAllRewardsHistoryByUser($user[0]->unique_id);
+    
+    // Устанавливаем часовой пояс Almaty
+    $timezone = new DateTimeZone('Asia/Almaty');
     ?>
     <div>
         <div>
@@ -66,11 +69,16 @@
                 </thead>
                 <tbody>
                 <?php $i = 1;
-                foreach ($transactions as $transaction) { ?>
+                foreach ($transactions as $transaction) { 
+                    // Конвертируем Unix timestamp в DateTime с часовым поясом Almaty
+                    $date = new DateTime();
+                    $date->setTimestamp($transaction->date);
+                    $date->setTimezone($timezone);
+                    ?>
                     <tr>
                         <td><?= $i; ?></td>
                         <td><?= $transaction->amount . ' c.u.'; ?></td>
-                        <td><?= date('F j, Y', $transaction->date); ?></td>
+                        <td><?= $date->format('F j, Y'); ?></td>
                     </tr>
                     <?php $i++;
                 } ?>
@@ -100,12 +108,16 @@
             </tr>
             </thead>
             <tbody>
-            <?php $i=1; foreach ($rewardsHistory as $item) {  ?>
+            <?php $i=1; foreach ($rewardsHistory as $item) {  
+                // Конвертируем строку даты в DateTime с часовым поясом Almaty
+                $date = new DateTime($item->created_at);
+                $date->setTimezone($timezone);
+                ?>
                 <tr id="trr<?= $item->id; ?>">
                     <td><?= $i; ?></td>
                     <td><?= $item->unique_id; ?></td>
                     <td><?= $item->amount; ?></td>
-                    <td><?= \DateTime::createFromFormat('Y-m-d H:i:s', $item->created_at)->format('F j, Y H:i:s') ?></td>
+                    <td><?= $date->format('F j, Y H:i:s') ?></td>
                     <td><?= $item->after_rewords_balance; ?></td>
                 </tr>
                 <?php $i++; } ?>

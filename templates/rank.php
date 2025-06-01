@@ -31,13 +31,13 @@ $data = $datatable->getAllUserRank();
             </li>
             <li class="act">
                 <a href="<?= get_admin_url() . 'admin.php?page=rank'; ?>">
-                    <?php _e('Date of Rank’s change', 'marketing') ?>
+                    <?php _e('Date of Rank\'s change', 'marketing') ?>
                 </a>
             </li>
         </ul>
     </div>
 
-    <h3><?php _e('Date of Rank’s change', 'marketing') ?></h3>
+    <h3><?php _e('Date of Rank\'s change', 'marketing') ?></h3>
 
     <table id="rank" class="ui celled table" style="width:100%">
         <thead>
@@ -50,13 +50,18 @@ $data = $datatable->getAllUserRank();
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($data as $k => $item) : ?>
+        <?php 
+        $timezone = new DateTimeZone('Asia/Almaty');
+        foreach ($data as $k => $item) : 
+            $date = new DateTime($item['created_at']);
+            $date->setTimezone($timezone);
+        ?>
             <tr id="trr<?= $item['id']; ?>">
                 <td><?= $k + 1; ?></td>
                 <td><?= $item['unique_id']; ?></td>
                 <td><?= $item['user_name']; ?></td>
                 <td><?= $item['rank_id']; ?></td>
-                <td><?= \DateTime::createFromFormat('Y-m-d H:i:s', $item['created_at'])->format('F j, Y H:i:s') ?></td>
+                <td><?= $date->format('F j, Y H:i:s') ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>
