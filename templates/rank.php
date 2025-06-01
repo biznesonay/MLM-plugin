@@ -80,6 +80,7 @@ $data = $datatable->getAllUserRank();
 <script>
     jQuery(document).ready(function () {
         jQuery('#rank').DataTable({
+            "order": [[ 0, "desc" ]], // Сортировка по первому столбцу (Sl no) по убыванию
             language: {
                 "search": "<?php _e('Search:', 'marketing') ?>",
                 "lengthMenu": "<?php _e('Show _MENU_ entries', 'marketing') ?>",

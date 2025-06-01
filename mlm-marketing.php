@@ -3,7 +3,7 @@
 Plugin Name: MLM Marketing
 Plugin URI:  https://biznesonay.kz
 Description: This plugin for multi lavel marketing and rank basis reward.
-Version:     1.0.7
+Version:     1.0.8.1
 Author:      BiznesOnay
 Author URI:  https://biznesonay.kz
 License:     GPL2
@@ -967,6 +967,8 @@ function reward_history()
 add_action('woocommerce_order_status_completed', 'mlm_process_completed_order');
 add_action('woocommerce_payment_complete', 'mlm_process_completed_order');
 
+// Замените существующую функцию mlm_process_completed_order этой версией:
+
 function mlm_process_completed_order($order_id) {
     // Получаем заказ
     $order = wc_get_order($order_id);
@@ -1014,6 +1016,9 @@ function mlm_process_completed_order($order_id) {
             }
         }
         
+        // Получаем спонсора по умолчанию из настроек
+        $default_sponsor = get_option('mlm_default_sponsor', 'USER1');
+        
         $registry->register(
             $user_id,
             $user_unique_id,
@@ -1021,7 +1026,7 @@ function mlm_process_completed_order($order_id) {
             $order->get_billing_last_name(),
             $billing_phone,
             $city_id,
-            'USER1', // Спонсор по умолчанию
+            $default_sponsor,
             $user->user_email
         );
     }

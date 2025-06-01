@@ -71,12 +71,75 @@ class RankDB
     {
         global $wpdb;
 
-        $wpdb->insert("{$wpdb->prefix}mlm_users_rank",
-            ['rank_id' => $rank, 'mlm_user_id' => $mlmUserId, 'unique_id' => $userUniqueId, 'pcc_scc' => $bonusPccScc],
-            ['%d', '%d', '%s', '%f']
-        );
+        // Проверяем, не было ли уже записи об этом изменении ранга за последние 5 секунд
+        $recentEntry = $wpdb->get_var($wpdb->prepare(
+            "SELECT id FROM {$wpdb->prefix}mlm_users_rank 
+             WHERE unique_id = %s 
+             AND rank_id = %d 
+             AND created_at >= DATE_SUB(NOW(), INTERVAL 5 SECOND)",
+            $userUniqueId,
+            $rank
+        ));
+
+        // Если недавней записи нет, логируем изменение ранга
+        if (!$recentEntry) {
+            $wpdb->insert("{$wpdb->prefix}mlm_users_rank",
+                ['rank_id' => $rank, 'mlm_user_id' => $mlmUserId, 'unique_id' => $userUniqueId, 'pcc_scc' => $bonusPccScc],
+                ['%d', '%d', '%s', '%f']
+            );
+        }
 
         return $wpdb->update("{$wpdb->prefix}mlm_users", ['rank' => $rank], ['unique_id' => $userUniqueId]);
+    }
+
+    // Новый метод для логирования изменений ранга
+    public static function logRankChange($userUniqueId, $newRank, $userId = null)
+    {
+        global $wpdb;
+        
+        // Получаем текущий ранг
+        $currentRank = $wpdb->get_var($wpdb->prepare(
+            "SELECT rank FROM {$wpdb->prefix}mlm_users WHERE unique_id = %s",
+            $userUniqueId
+        ));
+        
+        // Если ранг изменился, записываем в историю
+        if ($currentRank != $newRank) {
+            // Проверяем, не было ли уже записи об этом изменении за последние 5 секунд
+            $recentEntry = $wpdb->get_var($wpdb->prepare(
+                "SELECT id FROM {$wpdb->prefix}mlm_users_rank 
+                 WHERE unique_id = %s 
+                 AND rank_id = %d 
+                 AND created_at >= DATE_SUB(NOW(), INTERVAL 5 SECOND)",
+                $userUniqueId,
+                $newRank
+            ));
+
+            if (!$recentEntry) {
+                $bonusPccScc = $wpdb->get_var($wpdb->prepare(
+                    "SELECT IFNULL(pcc, 0) + IFNULL(scc, 0) FROM {$wpdb->prefix}mlm_rewards WHERE mlm_user_id = %s",
+                    $userUniqueId
+                ));
+                
+                if (!$userId) {
+                    $user = self::getUserByUniqueId($userUniqueId);
+                    $userId = $user['user_id'] ?? null;
+                }
+                
+                $wpdb->insert("{$wpdb->prefix}mlm_users_rank",
+                    [
+                        'rank_id' => $newRank, 
+                        'mlm_user_id' => $userId, 
+                        'unique_id' => $userUniqueId, 
+                        'pcc_scc' => $bonusPccScc
+                    ],
+                    ['%d', '%d', '%s', '%f']
+                );
+            }
+            
+            // Обновляем ранг в основной таблице
+            $wpdb->update("{$wpdb->prefix}mlm_users", ['rank' => $newRank], ['unique_id' => $userUniqueId]);
+        }
     }
 
     public static function saveRewardByCondition(string $userUniqueId, array $condition)
