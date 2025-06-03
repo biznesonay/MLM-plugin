@@ -11,9 +11,25 @@ class StructureReport
         $status = '';
 
         try {
+            // Устанавливаем часовой пояс Алматы
+            date_default_timezone_set('Asia/Almaty');
+            
             var_dump('structure report run');
-            $startWeek = date("d-m-Y", strtotime('monday this week'));
-            $endWeek = date("d-m-Y", strtotime('sunday this week'));
+            
+            // Получаем даты начала и конца недели с учетом часового пояса
+            $timezone = new DateTimeZone('Asia/Almaty');
+            $now = new DateTime('now', $timezone);
+            
+            // Получаем понедельник этой недели
+            $monday = clone $now;
+            $monday->modify('monday this week');
+            $startWeek = $monday->format('d-m-Y');
+            
+            // Получаем воскресенье этой недели
+            $sunday = clone $now;
+            $sunday->modify('sunday this week');
+            $endWeek = $sunday->format('d-m-Y');
+            
             $filename = 's-' . $startWeek . '-' . $endWeek .'.xlsx';
             $uploadPath = wp_upload_dir()['basedir'] . DIRECTORY_SEPARATOR . 'report';
             $filePath = $uploadPath . "/" . $filename;
@@ -94,6 +110,9 @@ class StructureReport
     {
         global $wpdb;
         $prefix = $wpdb->prefix;
+        
+        // Устанавливаем часовой пояс для MySQL
+        $wpdb->query("SET time_zone = '+06:00'");
 
         $sql = "SELECT u.*, r.pcc, r.scc, r.dr, r.sr, r.mr, r.br, r.br_car, us.user_name sponsor_name FROM {$prefix}mlm_users as u 
                 left join {$prefix}mlm_users us ON us.unique_id = u.sponsor_id
@@ -108,9 +127,18 @@ class StructureReport
     protected function saveReportFile(string $fileName, string $path, int $typeId)
     {
         global $wpdb;
-        $insert_data = ['file_name' => $fileName, 'file_path' => $path, 'type_id' => $typeId];
+        
+        // Устанавливаем часовой пояс для корректного сохранения времени
+        $wpdb->query("SET time_zone = '+06:00'");
+        
+        $insert_data = [
+            'file_name' => $fileName, 
+            'file_path' => $path, 
+            'type_id' => $typeId,
+            'created_at' => current_time('mysql') // Используем WordPress функцию для получения текущего времени
+        ];
 
-        return $wpdb->insert("{$wpdb->prefix}mlm_report", $insert_data);
+        return $wpdb->insert("{$wpdb->prefix}mlm_report", $insert_data, ['%s', '%s', '%d', '%s']);
     }
 
     protected function createDir($uploadPath): void

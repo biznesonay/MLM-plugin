@@ -281,24 +281,30 @@ private function register_user($email, $password, $name, $sponsorid, $phone, $ci
     }
 
     public function getAllWillPayReportFile()
-    {
-        global $wpdb;
-        $prefix = $wpdb->prefix;
+{
+    global $wpdb;
+    $prefix = $wpdb->prefix;
+    
+    // Устанавливаем часовой пояс для корректной работы с датами
+    $wpdb->query("SET time_zone = '+06:00'");
+    
+    $result = $wpdb->get_results("SELECT * FROM {$prefix}mlm_report where type_id = 1 order by created_at desc, id desc", 'ARRAY_A');
 
-        $result = $wpdb->get_results("SELECT * FROM {$prefix}mlm_report where type_id = 1 order by id desc", 'ARRAY_A');
+    return $result;
+}
 
-        return $result;
-    }
+public function getAllPayedReportFile()
+{
+    global $wpdb;
+    $prefix = $wpdb->prefix;
+    
+    // Устанавливаем часовой пояс для корректной работы с датами
+    $wpdb->query("SET time_zone = '+06:00'");
+    
+    $result = $wpdb->get_results("SELECT * FROM {$prefix}mlm_report where type_id = 2 order by created_at desc, id desc", 'ARRAY_A');
 
-    public function getAllPayedReportFile()
-    {
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-
-        $result = $wpdb->get_results("SELECT * FROM {$prefix}mlm_report where type_id = 2 order by id desc", 'ARRAY_A');
-
-        return $result;
-    }
+    return $result;
+}
 
     public function get_all_transuctions()
     {
