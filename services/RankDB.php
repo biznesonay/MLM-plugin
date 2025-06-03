@@ -70,22 +70,33 @@ class RankDB
     public static function saveUserRank(string $userUniqueId, int $rank, int $mlmUserId, $bonusPccScc)
     {
         global $wpdb;
+        
+        // Устанавливаем часовой пояс Алматы для корректной работы с датами
+        date_default_timezone_set('Asia/Almaty');
+        $currentDateTime = current_time('mysql');
 
         // Проверяем, не было ли уже записи об этом изменении ранга за последние 5 секунд
         $recentEntry = $wpdb->get_var($wpdb->prepare(
             "SELECT id FROM {$wpdb->prefix}mlm_users_rank 
              WHERE unique_id = %s 
              AND rank_id = %d 
-             AND created_at >= DATE_SUB(NOW(), INTERVAL 5 SECOND)",
+             AND created_at >= DATE_SUB(%s, INTERVAL 5 SECOND)",
             $userUniqueId,
-            $rank
+            $rank,
+            $currentDateTime
         ));
 
         // Если недавней записи нет, логируем изменение ранга
         if (!$recentEntry) {
             $wpdb->insert("{$wpdb->prefix}mlm_users_rank",
-                ['rank_id' => $rank, 'mlm_user_id' => $mlmUserId, 'unique_id' => $userUniqueId, 'pcc_scc' => $bonusPccScc],
-                ['%d', '%d', '%s', '%f']
+                [
+                    'rank_id' => $rank, 
+                    'mlm_user_id' => $mlmUserId, 
+                    'unique_id' => $userUniqueId, 
+                    'pcc_scc' => $bonusPccScc,
+                    'created_at' => $currentDateTime
+                ],
+                ['%d', '%d', '%s', '%f', '%s']
             );
         }
 
@@ -96,6 +107,10 @@ class RankDB
     public static function logRankChange($userUniqueId, $newRank, $userId = null)
     {
         global $wpdb;
+        
+        // Устанавливаем часовой пояс Алматы
+        date_default_timezone_set('Asia/Almaty');
+        $currentDateTime = current_time('mysql');
         
         // Получаем текущий ранг
         $currentRank = $wpdb->get_var($wpdb->prepare(
@@ -110,9 +125,10 @@ class RankDB
                 "SELECT id FROM {$wpdb->prefix}mlm_users_rank 
                  WHERE unique_id = %s 
                  AND rank_id = %d 
-                 AND created_at >= DATE_SUB(NOW(), INTERVAL 5 SECOND)",
+                 AND created_at >= DATE_SUB(%s, INTERVAL 5 SECOND)",
                 $userUniqueId,
-                $newRank
+                $newRank,
+                $currentDateTime
             ));
 
             if (!$recentEntry) {
@@ -131,9 +147,10 @@ class RankDB
                         'rank_id' => $newRank, 
                         'mlm_user_id' => $userId, 
                         'unique_id' => $userUniqueId, 
-                        'pcc_scc' => $bonusPccScc
+                        'pcc_scc' => $bonusPccScc,
+                        'created_at' => $currentDateTime
                     ],
-                    ['%d', '%d', '%s', '%f']
+                    ['%d', '%d', '%s', '%f', '%s']
                 );
             }
             
@@ -154,6 +171,9 @@ class RankDB
     public static function createBrNotification(string $userUniqueId, int $amount, string $message)
     {
         global $wpdb;
+        
+        // Устанавливаем правильный часовой пояс
+        date_default_timezone_set('Asia/Almaty');
 
         $sql = "SELECT * FROM {$wpdb->prefix}mlm_reward_notification  WHERE unique_id = '{$userUniqueId}'";
         $issetNotification = $wpdb->get_results($sql, 'ARRAY_A');
@@ -162,7 +182,12 @@ class RankDB
             return false;
         }
 
-        $insert_data = ['unique_id' => $userUniqueId, 'amount' => $amount, 'message' => $message];
+        $insert_data = [
+            'unique_id' => $userUniqueId, 
+            'amount' => $amount, 
+            'message' => $message,
+            'created_at' => current_time('mysql')
+        ];
 
         return $wpdb->insert("{$wpdb->prefix}mlm_reward_notification", $insert_data);
     }
@@ -179,8 +204,11 @@ class RankDB
         if (!$balance) return false;
 
         global $wpdb;
+        
+        // Устанавливаем правильный часовой пояс
+        date_default_timezone_set('Asia/Almaty');
 
-        $insert_data = ['tran_user_id' => $userUniqueId, 'amount' => $balance, 'date' => strtotime("now")];
+        $insert_data = ['tran_user_id' => $userUniqueId, 'amount' => $balance, 'date' => time()];
 
         return $wpdb->insert("{$wpdb->prefix}mlm_transactions", $insert_data);
     }

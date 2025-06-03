@@ -3,7 +3,7 @@
 Plugin Name: MLM Marketing
 Plugin URI:  https://biznesonay.kz
 Description: This plugin for multi lavel marketing and rank basis reward.
-Version:     1.0.8.3
+Version:     1.0.8.4
 Author:      BiznesOnay
 Author URI:  https://biznesonay.kz
 License:     GPL2
@@ -12,6 +12,15 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 
 require_once(ABSPATH . 'wp-config.php');
+
+// Установка часового пояса при загрузке плагина
+add_action('init', function() {
+    date_default_timezone_set('Asia/Almaty');
+    
+    // Установка часового пояса для MySQL
+    global $wpdb;
+    $wpdb->query("SET time_zone = '+06:00'");
+});
 
 add_action('admin_menu', 'my_admin_menu');
 
