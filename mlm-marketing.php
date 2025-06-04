@@ -3,7 +3,7 @@
 Plugin Name: MLM Marketing
 Plugin URI:  https://biznesonay.kz
 Description: This plugin for multi lavel marketing and rank basis reward.
-Version:     1.0.8.4
+Version:     1.0.8.6
 Author:      BiznesOnay
 Author URI:  https://biznesonay.kz
 License:     GPL2
@@ -46,11 +46,17 @@ function mlm_settings_page() {
     if (isset($_POST['submit'])) {
         update_option('mlm_default_sponsor', sanitize_text_field($_POST['default_sponsor']));
         update_option('mlm_auto_process_orders', isset($_POST['auto_process']) ? 'yes' : 'no');
+        update_option('mlm_recaptcha_site_key', sanitize_text_field($_POST['recaptcha_site_key']));
+        update_option('mlm_recaptcha_secret_key', sanitize_text_field($_POST['recaptcha_secret_key']));
+        update_option('mlm_recaptcha_enabled', isset($_POST['recaptcha_enabled']) ? 'yes' : 'no');
         echo '<div class="notice notice-success"><p>Настройки сохранены!</p></div>';
     }
     
     $default_sponsor = get_option('mlm_default_sponsor', 'USER1');
     $auto_process = get_option('mlm_auto_process_orders', 'yes');
+    $recaptcha_site_key = get_option('mlm_recaptcha_site_key', '');
+    $recaptcha_secret_key = get_option('mlm_recaptcha_secret_key', '');
+    $recaptcha_enabled = get_option('mlm_recaptcha_enabled', 'no');
     ?>
     <div class="wrap">
         <h1>MLM Настройки</h1>
@@ -63,6 +69,24 @@ function mlm_settings_page() {
                 <tr>
                     <th>Автоматически обрабатывать заказы</th>
                     <td><input type="checkbox" name="auto_process" <?= $auto_process == 'yes' ? 'checked' : '' ?>></td>
+                </tr>
+                <tr>
+                    <th colspan="2"><h2>Настройки reCAPTCHA</h2></th>
+                </tr>
+                <tr>
+                    <th>Включить reCAPTCHA</th>
+                    <td><input type="checkbox" name="recaptcha_enabled" <?= $recaptcha_enabled == 'yes' ? 'checked' : '' ?>></td>
+                </tr>
+                <tr>
+                    <th>Site Key</th>
+                    <td>
+                        <input type="text" name="recaptcha_site_key" value="<?= $recaptcha_site_key ?>" style="width: 350px;">
+                        <p class="description">Получите ключи на <a href="https://www.google.com/recaptcha/admin" target="_blank">https://www.google.com/recaptcha/admin</a></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Secret Key</th>
+                    <td><input type="text" name="recaptcha_secret_key" value="<?= $recaptcha_secret_key ?>" style="width: 350px;"></td>
                 </tr>
             </table>
             <?php submit_button(); ?>
@@ -663,9 +687,70 @@ function frontendLogin()
 add_action('admin_post_mlm_frontend_user_register', 'frontendRegister');
 add_action('admin_post_nopriv_mlm_frontend_user_register', 'frontendRegister');
 
+// Лимитирование попыток регистрации по IP
+function mlm_check_registration_limit($ip_address) {
+    $transient_key = 'mlm_reg_attempts_' . md5($ip_address);
+    $attempts = get_transient($transient_key);
+    
+    if ($attempts === false) {
+        set_transient($transient_key, 1, HOUR_IN_SECONDS);
+        return true;
+    }
+    
+    if ($attempts >= 5) { // Максимум 5 попыток в час
+        return false;
+    }
+    
+    set_transient($transient_key, $attempts + 1, HOUR_IN_SECONDS);
+    return true;
+}
+
 function frontendRegister()
 {
-    // Удалена проверка пароля из условия
+    // Проверка лимита регистраций
+    $ip_address = $_SERVER['REMOTE_ADDR'];
+    if (!mlm_check_registration_limit($ip_address)) {
+        wp_redirect($_POST['us_return_url'] . '?registration_limit=true');
+        exit;
+    }
+    
+    // Проверка reCAPTCHA
+    $recaptcha_enabled = get_option('mlm_recaptcha_enabled', 'no');
+    $recaptcha_secret_key = get_option('mlm_recaptcha_secret_key', '');
+    
+    if ($recaptcha_enabled == 'yes' && !empty($recaptcha_secret_key)) {
+        $recaptcha_response = isset($_POST['g-recaptcha-response']) ? $_POST['g-recaptcha-response'] : '';
+        
+        if (empty($recaptcha_response)) {
+            wp_redirect($_POST['us_return_url'] . '?recaptcha_error=true');
+            exit;
+        }
+        
+        // Проверка reCAPTCHA через Google API
+        $verify_url = 'https://www.google.com/recaptcha/api/siteverify';
+        $response = wp_remote_post($verify_url, array(
+            'body' => array(
+                'secret' => $recaptcha_secret_key,
+                'response' => $recaptcha_response,
+                'remoteip' => $_SERVER['REMOTE_ADDR']
+            )
+        ));
+        
+        if (is_wp_error($response)) {
+            wp_redirect($_POST['us_return_url'] . '?recaptcha_error=true');
+            exit;
+        }
+        
+        $response_body = wp_remote_retrieve_body($response);
+        $result = json_decode($response_body, true);
+        
+        if (!$result['success']) {
+            wp_redirect($_POST['us_return_url'] . '?recaptcha_error=true');
+            exit;
+        }
+    }
+    
+    // Существующая проверка полей
     if ($_POST['us_name'] == '' || $_POST['us_email'] == '' || $_POST['us_sponsor_id'] == '') {
         wp_redirect($_POST['us_return_url'] . '?fieldempty=true');
     } else {

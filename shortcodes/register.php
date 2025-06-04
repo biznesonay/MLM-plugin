@@ -4,6 +4,10 @@ $datatable = new Datatable_List();
 $condition = "role = 'distributor' AND rank > 0";
 $sponsors = $datatable->get_all_cond_data('mlm_users', $condition);
 $cities = $datatable->getCity();
+
+// Получаем настройки reCAPTCHA
+$recaptcha_enabled = get_option('mlm_recaptcha_enabled', 'no');
+$recaptcha_site_key = get_option('mlm_recaptcha_site_key', '');
 ?>
 <style>
     .form-control {
@@ -20,7 +24,7 @@ $cities = $datatable->getCity();
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     }
     
-    .phone-error {
+    .phone-error, .recaptcha-error {
         color: #dc3545;
         font-size: 0.875rem;
         margin-top: 0.25rem;
@@ -30,7 +34,15 @@ $cities = $datatable->getCity();
     .form-control.error {
         border-color: #dc3545;
     }
+    
+    .recaptcha-container {
+        margin: 20px 0;
+    }
 </style>
+
+<?php if ($recaptcha_enabled == 'yes' && !empty($recaptcha_site_key)): ?>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<?php endif; ?>
 
 <div class="HGGu_login">
     <h1><?php _e('User Registration', 'marketing'); ?></h1>
@@ -46,6 +58,18 @@ $cities = $datatable->getCity();
             <div class="error-msg">
                 <i class="fa fa-times-circle"></i>
                 <?php _e('Данный номер уже зарегистрирован', 'marketing'); ?>
+            </div>
+        <?php } ?>
+        <?php if (isset($_GET['recaptcha_error'])) { ?>
+            <div class="error-msg">
+                <i class="fa fa-times-circle"></i>
+                <?php _e('Пожалуйста, подтвердите, что вы не робот', 'marketing'); ?>
+            </div>
+        <?php } ?>
+        <?php if (isset($_GET['registration_limit'])) { ?>
+            <div class="error-msg">
+                <i class="fa fa-times-circle"></i>
+                <?php _e('Слишком много попыток регистрации. Попробуйте позже.', 'marketing'); ?>
             </div>
         <?php } ?>
         <?php if (isset($_GET['registersuccess'])) { ?>
@@ -90,6 +114,13 @@ $cities = $datatable->getCity();
                 <?php } ?>
             </select>
         </div>
+
+        <?php if ($recaptcha_enabled == 'yes' && !empty($recaptcha_site_key)): ?>
+        <div class="recaptcha-container">
+            <div class="g-recaptcha" data-sitekey="<?= $recaptcha_site_key ?>"></div>
+            <div class="recaptcha-error" id="recaptcha-error">Пожалуйста, подтвердите, что вы не робот</div>
+        </div>
+        <?php endif; ?>
 
         <input type="hidden" name="us_return_url" value="<?= get_permalink(get_the_ID()); ?>">
         <input type="hidden" name="action" value="mlm_frontend_user_register">
@@ -149,14 +180,31 @@ $cities = $datatable->getCity();
             });
         }
         
-        // Предотвращаем отправку формы если номер уже существует
+        // Предотвращаем отправку формы если номер уже существует или reCAPTCHA не пройдена
         jQuery("#frontendSignUp").on('submit', function(e) {
+            let isValid = true;
+            
+            // Проверка телефона
             if (!isPhoneValid) {
                 e.preventDefault();
                 jQuery('#phone-error').show();
                 jQuery('#distributor_phone').focus();
-                return false;
+                isValid = false;
             }
+            
+            <?php if ($recaptcha_enabled == 'yes'): ?>
+            // Проверка reCAPTCHA
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (!recaptchaResponse) {
+                e.preventDefault();
+                jQuery('#recaptcha-error').show();
+                isValid = false;
+            } else {
+                jQuery('#recaptcha-error').hide();
+            }
+            <?php endif; ?>
+            
+            return isValid;
         });
     });
 
