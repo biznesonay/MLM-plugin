@@ -3,23 +3,15 @@
 Plugin Name: MLM Marketing
 Plugin URI:  https://biznesonay.kz
 Description: This plugin for multi lavel marketing and rank basis reward.
-Version:     1.0.8.5
+Version:     1.0.8.4
 Author:      BiznesOnay
 Author URI:  https://biznesonay.kz
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: marketing
-Domain Path: /languages
 */
 
 
 require_once(ABSPATH . 'wp-config.php');
-
-// Загрузка текстового домена для локализации
-add_action('plugins_loaded', 'mlm_load_textdomain');
-function mlm_load_textdomain() {
-    load_plugin_textdomain('marketing', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-}
 
 // Установка часового пояса при загрузке плагина
 add_action('init', function() {
@@ -54,22 +46,22 @@ function mlm_settings_page() {
     if (isset($_POST['submit'])) {
         update_option('mlm_default_sponsor', sanitize_text_field($_POST['default_sponsor']));
         update_option('mlm_auto_process_orders', isset($_POST['auto_process']) ? 'yes' : 'no');
-        echo '<div class="notice notice-success"><p>' . __('Settings saved!', 'marketing') . '</p></div>';
+        echo '<div class="notice notice-success"><p>Настройки сохранены!</p></div>';
     }
     
     $default_sponsor = get_option('mlm_default_sponsor', 'USER1');
     $auto_process = get_option('mlm_auto_process_orders', 'yes');
     ?>
     <div class="wrap">
-        <h1><?php _e('MLM Settings', 'marketing'); ?></h1>
+        <h1>MLM Настройки</h1>
         <form method="post" action="">
             <table class="form-table">
                 <tr>
-                    <th><?php _e('Default Sponsor', 'marketing'); ?></th>
+                    <th>Спонсор по умолчанию</th>
                     <td><input type="text" name="default_sponsor" value="<?= $default_sponsor ?>"></td>
                 </tr>
                 <tr>
-                    <th><?php _e('Automatically process orders', 'marketing'); ?></th>
+                    <th>Автоматически обрабатывать заказы</th>
                     <td><input type="checkbox" name="auto_process" <?= $auto_process == 'yes' ? 'checked' : '' ?>></td>
                 </tr>
             </table>
@@ -79,7 +71,7 @@ function mlm_settings_page() {
     <?php
 }
 //    add_submenu_page('mlm-overview', __('Parser', 'marketing'), __('Parser', 'marketing'), 'manage_options', 'parser', 'parser');
-    add_submenu_page('mlm-overview', __('Date of Rank\'s change', 'marketing'), __('Date of Rank\'s change', 'marketing'), 'manage_options', 'rank', 'rank');
+    add_submenu_page('mlm-overview', __('Date of Rank’s change', 'marketing'), __('Date of Rank’s change', 'marketing'), 'manage_options', 'rank', 'rank');
 }
 
 function create_plugin_database_table()
@@ -837,16 +829,16 @@ function get_user_details()
     $condition = "id='" . $_POST['user_id_val'] . "'";
     $user = $datatable->get_all_cond_data('mlm_users', $condition);
     $formHtml = "<form action='" . admin_url('admin-post.php') . "' method='post' class='form_cla form_CLa'>";
-    $formHtml .= '<label for="distributor_name">' . __('Name', 'marketing') . ' <strong>*</strong></label>';
+    $formHtml .= '<label for="distributor_name">Name <strong>*</strong></label>';
     $formHtml .= '<input type="text" name="mlm_distributor_name" id="distributor_name" required value="' . $user[0]->user_name . '">';
-    $formHtml .= '<label for="distributor_phone">' . __('Phone', 'marketing') . ' <strong>*</strong></label>';
+    $formHtml .= '<label for="distributor_phone">Phone <strong>*</strong></label>';
     $formHtml .= '<input type="text" name="mlm_distributor_phone" id="distributor_phone" required value="' . $user[0]->user_phone . '">';
-    $formHtml .= '<label for="distributor_name">' . __('Sponsor ID', 'marketing') . ' <strong>*</strong></label>';
+    $formHtml .= '<label for="distributor_name">Sponsor ID <strong>*</strong></label>';
     $formHtml .= '<input type="text" name="mlm_distributor_sponid" id="distributor_sponid" value="' . $user[0]->sponsor_id . '" readonly>';
-    $formHtml .= '<label for="city">' . __('City', 'marketing') . ' <strong>*</strong></label>';
+    $formHtml .= '<label for="city">City <strong>*</strong></label>';
 
     $formHtml .= '<select class="ui search dropdown" name="city_id">';
-    $formHtml .= "<option value=''>" . __('Select City', 'marketing') . "</option>";
+    $formHtml .= "<option value=''>Select City</option>";
 
     foreach ($cities as $city) {
         $selected = ($user[0]->city_id == $city['id']) ? 'selected' : '';
@@ -857,7 +849,7 @@ function get_user_details()
     $formHtml .= '<input type="hidden" value="disrageedt" name="action">';
     $formHtml .= '<input type="hidden" value="' . $user[0]->id . '" name="id">';
     $formHtml .= '<input type="hidden" value="' . $user[0]->user_id . '" name="user_id_val">';
-    $formHtml .= '<input type="submit" value="' . __('Submit', 'marketing') . '">';
+    $formHtml .= '<input type="submit" value="Submit">';
     $formHtml .= "</form>";
     echo $formHtml;
     wp_die();

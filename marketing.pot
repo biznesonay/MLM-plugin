@@ -1,0 +1,521 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: MLM Marketing\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-01 17:02+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.4.2; wp-5.4.2"
+
+#: templates/distributor.php:74 templates/distributor.php:103
+msgid "Action"
+msgstr ""
+
+#: templates/circulation.php:64
+msgid "Additional expenses"
+msgstr ""
+
+#: shortcodes/profile.php:99 shortcodes/profile.php:119
+#: templates/rewards-history.php:66 templates/rewards-history.php:88
+msgid "After account balance"
+msgstr ""
+
+#: shortcodes/register.php:13
+msgid "All fields is requird."
+msgstr ""
+
+#: shortcodes/profile.php:50
+msgid "All Rewards"
+msgstr ""
+
+#: templates/structure-p.php:60 templates/structure-p.php:100
+msgid "ALLR"
+msgstr ""
+
+#: shortcodes/profile.php:63 shortcodes/profile.php:81
+#: templates/circulation.php:89 templates/circulation.php:111
+msgid "Amount"
+msgstr ""
+
+#: templates/rewards-history.php:41
+msgid "Amount of rewards"
+msgstr ""
+
+#: templates/circulation.php:170 templates/circulation.php:213
+#: templates/distributor.php:183
+msgid "Are you sure?"
+msgstr ""
+
+#: templates/structure-p.php:58 templates/structure-p.php:98
+msgid "BR"
+msgstr ""
+
+#: templates/structure-p.php:59 templates/structure-p.php:99
+msgid "BRC"
+msgstr ""
+
+#: templates/circulation.php:48
+msgid "Circulation Commodity"
+msgstr ""
+
+#: mlm-marketing.php:22
+msgid "Circulation Panel"
+msgstr ""
+
+#: mlm-marketing.php:22 templates/circulation.php:25
+#: templates/distributor.php:23 templates/family-tree.php:22
+#: templates/rewards-history.php:16 templates/structure-p.php:22
+msgid "Commodity Circulation Panel"
+msgstr ""
+
+#: templates/circulation.php:74
+msgid "Contribution"
+msgstr ""
+
+#: templates/rewards-history.php:53
+msgid "Create"
+msgstr ""
+
+#: templates/distributor.php:64
+msgid "Current Users"
+msgstr ""
+
+#: shortcodes/profile.php:44
+msgid "Direct Reward"
+msgstr ""
+
+#: templates/circulation.php:50 templates/circulation.php:87
+#: templates/circulation.php:109 templates/rewards-history.php:44
+#: templates/structure-p.php:48 templates/structure-p.php:88
+msgid "Distributor ID"
+msgstr ""
+
+#: templates/circulation.php:88 templates/circulation.php:110
+#: templates/structure-p.php:49 templates/structure-p.php:89
+msgid "Distributor Name"
+msgstr ""
+
+#: mlm-marketing.php:21
+msgid "Distributor Panel"
+msgstr "Дистрибутор панель"
+
+#: templates/circulation.php:21 templates/distributor.php:19
+#: templates/family-tree.php:18 templates/rewards-history.php:12
+#: templates/structure-p.php:18
+msgid "Distributor panel"
+msgstr "Дистрибутор панель"
+
+#: templates/distributor.php:149
+msgid "Distributor update successful!"
+msgstr ""
+
+#: templates/circulation.php:171
+msgid "Do you wont to create Circulation Commodity"
+msgstr ""
+
+#: templates/structure-p.php:55 templates/structure-p.php:95
+msgid "DR"
+msgstr ""
+
+#: shortcodes/login.php:18 shortcodes/register.php:30
+msgid "Email"
+msgstr ""
+
+#: shortcodes/login.php:9
+msgid "Email or password field is empty."
+msgstr ""
+
+#: includes/Datatable_List.php:49 includes/Datatable_List.php:66
+msgid "Error to delete"
+msgstr ""
+
+#: includes/Datatable_List.php:58
+msgid "Exist children, can not delete!"
+msgstr ""
+
+#: mlm-marketing.php:24 templates/circulation.php:35
+#: templates/distributor.php:33 templates/family-tree.php:32
+#: templates/rewards-history.php:26 templates/structure-p.php:32
+msgid "Family Panel"
+msgstr ""
+
+#: shortcodes/profile.php:126
+msgid "Family tree"
+msgstr ""
+
+#: shortcodes/profile.php:499 templates/circulation.php:150
+#: templates/distributor.php:164 templates/rewards-history.php:105
+#: templates/structure-p.php:116
+msgid "First"
+msgstr ""
+
+#: templates/overview.php:21
+msgid "For Modern user interaction"
+msgstr ""
+
+#: shortcodes/login.php:28
+msgid "Go To Profile"
+msgstr ""
+
+#: templates/rewards-history.php:40
+msgid "History of getting rewards by distributors"
+msgstr ""
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "http://jhunsinfobay.com/"
+msgstr ""
+
+#. Author of the plugin
+msgid "Jhuns Infobay"
+msgstr ""
+
+#: shortcodes/profile.php:502 templates/circulation.php:153
+#: templates/distributor.php:167 templates/rewards-history.php:108
+#: templates/structure-p.php:119
+msgid "Last"
+msgstr ""
+
+#: shortcodes/profile.php:411 templates/overview.php:29
+msgid "Login"
+msgstr ""
+
+#: templates/overview.php:31
+msgid "Login using"
+msgstr ""
+
+#: shortcodes/profile.php:133 templates/family-tree.php:67
+msgid "Management"
+msgstr ""
+
+#: shortcodes/profile.php:48
+msgid "Management Reward"
+msgstr ""
+
+#. Name of the plugin
+#: templates/overview.php:5
+msgid "MLM Marketing"
+msgstr ""
+
+#: templates/structure-p.php:57 templates/structure-p.php:97
+msgid "MR"
+msgstr ""
+
+#: shortcodes/profile.php:18 shortcodes/register.php:28
+#: templates/distributor.php:70 templates/distributor.php:99
+#: templates/rewards-history.php:64 templates/rewards-history.php:86
+msgid "Name"
+msgstr ""
+
+#: templates/distributor.php:139
+msgid "New Distributor register!"
+msgstr ""
+
+#: templates/circulation.php:132
+msgid "New Personal Circulation Commodity added!"
+msgstr ""
+
+#: shortcodes/register.php:25
+msgid "New user successfully registered!."
+msgstr ""
+
+#: shortcodes/profile.php:501 templates/circulation.php:152
+#: templates/distributor.php:166 templates/rewards-history.php:107
+#: templates/structure-p.php:118
+msgid "Next"
+msgstr ""
+
+#: shortcodes/profile.php:497 templates/circulation.php:148
+#: templates/distributor.php:162 templates/rewards-history.php:103
+#: templates/structure-p.php:114
+msgid "No data available in table"
+msgstr ""
+
+#: mlm-marketing.php:20
+msgid "Overview"
+msgstr ""
+
+#: shortcodes/login.php:20 shortcodes/register.php:36
+msgid "Password"
+msgstr ""
+
+#: shortcodes/profile.php:98 shortcodes/profile.php:118
+#: templates/rewards-history.php:67 templates/rewards-history.php:89
+msgid "Payout Date and Time"
+msgstr ""
+
+#: shortcodes/profile.php:97 shortcodes/profile.php:117
+#: templates/rewards-history.php:65 templates/rewards-history.php:87
+msgid "Payout Rewards"
+msgstr ""
+
+#: shortcodes/profile.php:40 templates/structure-p.php:53
+#: templates/structure-p.php:93
+msgid "PCC"
+msgstr ""
+
+#: templates/circulation.php:60
+msgid "Personal Circulation Commodity"
+msgstr ""
+
+#: shortcodes/profile.php:58
+msgid "Personal Transaction Table"
+msgstr ""
+
+#: shortcodes/profile.php:31 templates/distributor.php:71
+#: templates/distributor.php:100
+msgid "Phone"
+msgstr ""
+
+#: includes/Datatable_List.php:129
+msgid "Phone already exits"
+msgstr ""
+
+#: shortcodes/register.php:86
+msgid "Please choose your sponsor"
+msgstr ""
+
+#: shortcodes/login.php:47 shortcodes/register.php:81
+msgid "Please enter a valid email address"
+msgstr ""
+
+#: shortcodes/register.php:80
+msgid "Please enter your name"
+msgstr ""
+
+#: shortcodes/profile.php:410
+msgid "PLease Login or register to view profile."
+msgstr ""
+
+#: shortcodes/login.php:49 shortcodes/register.php:83
+msgid "Please provide a password"
+msgstr ""
+
+#: shortcodes/profile.php:500 templates/circulation.php:151
+#: templates/distributor.php:165 templates/rewards-history.php:106
+#: templates/structure-p.php:117
+msgid "Previous"
+msgstr ""
+
+#: templates/overview.php:48
+msgid "Profile"
+msgstr ""
+
+#: templates/overview.php:50
+msgid "Profile using"
+msgstr ""
+
+#: shortcodes/profile.php:38 templates/structure-p.php:50
+#: templates/structure-p.php:90
+msgid "Rank"
+msgstr ""
+
+#: shortcodes/profile.php:412
+msgid "Register"
+msgstr ""
+
+#: templates/overview.php:38
+msgid "Registration"
+msgstr ""
+
+#: templates/overview.php:40
+msgid "Registration using"
+msgstr ""
+
+#: mlm-marketing.php:25 templates/circulation.php:40
+#: templates/distributor.php:38 templates/family-tree.php:37
+#: templates/rewards-history.php:31 templates/structure-p.php:37
+msgid "Rewards History"
+msgstr ""
+
+#: shortcodes/profile.php:89 templates/rewards-history.php:57
+msgid "Rewards history"
+msgstr ""
+
+#: shortcodes/profile.php:42 templates/structure-p.php:54
+#: templates/structure-p.php:94
+msgid "SCC"
+msgstr ""
+
+#: templates/family-tree.php:49
+msgid "Search"
+msgstr ""
+
+#: templates/family-tree.php:47
+msgid "Search User"
+msgstr ""
+
+#: shortcodes/profile.php:493 templates/circulation.php:144
+#: templates/distributor.php:158 templates/rewards-history.php:99
+#: templates/structure-p.php:110
+msgid "Search:"
+msgstr ""
+
+#: templates/circulation.php:54
+msgid "Select Distributor"
+msgstr ""
+
+#: shortcodes/register.php:40 templates/distributor.php:54
+msgid "Select Sponsor"
+msgstr ""
+
+#: templates/overview.php:32 templates/overview.php:42
+#: templates/overview.php:52
+msgid "shortcode or a widget."
+msgstr ""
+
+#: shortcodes/profile.php:494 templates/circulation.php:145
+#: templates/distributor.php:159 templates/rewards-history.php:100
+#: templates/structure-p.php:111
+msgid "Show _MENU_ entries"
+msgstr ""
+
+#: shortcodes/profile.php:496 templates/circulation.php:147
+#: templates/distributor.php:161 templates/rewards-history.php:102
+#: templates/structure-p.php:113
+msgid "Showing 0 to 0 of 0 entries"
+msgstr ""
+
+#: shortcodes/profile.php:495 templates/circulation.php:146
+#: templates/distributor.php:160 templates/rewards-history.php:101
+#: templates/structure-p.php:112
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr ""
+
+#: shortcodes/profile.php:95 shortcodes/profile.php:115
+#: templates/circulation.php:86 templates/circulation.php:108
+#: templates/distributor.php:68 templates/distributor.php:97
+#: templates/rewards-history.php:62 templates/rewards-history.php:84
+#: templates/structure-p.php:47 templates/structure-p.php:87
+msgid "Sl no"
+msgstr ""
+
+#: shortcodes/profile.php:62 shortcodes/profile.php:80
+msgid "Sl no."
+msgstr ""
+
+#: templates/circulation.php:122
+msgid "Somethings wents wrong!"
+msgstr ""
+
+#: shortcodes/register.php:38 templates/distributor.php:73
+#: templates/distributor.php:102 templates/structure-p.php:51
+#: templates/structure-p.php:91
+msgid "Sponsor ID"
+msgstr ""
+
+#: templates/distributor.php:72 templates/distributor.php:101
+#: templates/structure-p.php:52 templates/structure-p.php:92
+msgid "Sponsor Name"
+msgstr ""
+
+#: templates/structure-p.php:56 templates/structure-p.php:96
+msgid "SR"
+msgstr ""
+
+#: shortcodes/profile.php:46
+msgid "Structural Reward"
+msgstr ""
+
+#: mlm-marketing.php:23 templates/circulation.php:30
+#: templates/distributor.php:28 templates/family-tree.php:27
+#: templates/rewards-history.php:21 templates/structure-p.php:27
+msgid "Structure Panel"
+msgstr ""
+
+#: shortcodes/login.php:24 shortcodes/register.php:47
+msgid "Submit"
+msgstr ""
+
+#: includes/Datatable_List.php:55 includes/Datatable_List.php:80
+msgid "Successfully deleted!"
+msgstr ""
+
+#: shortcodes/register.php:19
+msgid "This email are already exits."
+msgstr ""
+
+#. Description of the plugin
+#: templates/overview.php:7
+msgid "This plugin for multi lavel marketing and rank basis reward."
+msgstr ""
+
+#: templates/distributor.php:129
+msgid "This user phone already exits!"
+msgstr ""
+
+#: shortcodes/profile.php:64 shortcodes/profile.php:82
+#: templates/circulation.php:90 templates/circulation.php:112
+msgid "Transaction Date"
+msgstr ""
+
+#: templates/distributor.php:69 templates/distributor.php:98
+msgid "Unique ID"
+msgstr ""
+
+#: shortcodes/profile.php:96 shortcodes/profile.php:116
+#: templates/rewards-history.php:63 templates/rewards-history.php:85
+msgid "User ID"
+msgstr ""
+
+#: shortcodes/profile.php:25
+msgid "User id"
+msgstr ""
+
+#: shortcodes/login.php:3
+msgid "User Login"
+msgstr ""
+
+#: shortcodes/profile.php:15
+msgid "User Profile"
+msgstr ""
+
+#: shortcodes/register.php:7
+msgid "User Registration"
+msgstr ""
+
+#: shortcodes/login.php:27
+msgid "Welcome Back"
+msgstr ""
+
+#: shortcodes/login.php:15
+msgid "Wrong credentials."
+msgstr ""
+
+#: templates/distributor.php:189
+msgid "Yes"
+msgstr ""
+
+#: templates/distributor.php:184
+msgid "You won't be able to revert this!"
+msgstr ""
+
+#: templates/circulation.php:214
+msgid "You wont be able to revert this!"
+msgstr ""
+
+#: shortcodes/login.php:50 shortcodes/register.php:84
+msgid "Your password must be at least 5 characters long"
+msgstr ""
+
+#msgid "Date of Rank’s change"
+#msgid "Rank"
+#msgid "Date and Time"
+#msgid "User Name"
+#msgid "City Name"
+#msgid "Select City"
+#msgid "List of reports"
+#msgid "File"
+#msgid "Select All"
+#msgid "Pay"
+#msgid "Successfully added!"
+#msgid "Error to add!"
+#msgid "List of reports (Pay)"

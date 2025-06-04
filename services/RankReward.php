@@ -4,7 +4,7 @@ class RankReward
 {
     public function calculate($balance, $userUniqueId): array
     {
-        $result = ['status' => false, 'message' => __('Error to create', 'marketing')];
+        $result = ['status' => false, 'message' => translate('Error to create')];
         $curUserWithReward = RankDB::geUserRankWithReward($userUniqueId);
         $userRank = $curUserWithReward ? (int)$curUserWithReward['rank'] : 0;
         $clearBalance = $balance;
@@ -40,7 +40,7 @@ class RankReward
             $this->calculateBrAndBrCar($userUniqueId, $userRank);
 
             $result['status'] = true;
-            $result['message'] = __('Successfully created', 'marketing');
+            $result['message'] = translate('Successfully created');
         }
 
         return $result;
@@ -238,7 +238,7 @@ class RankReward
     {
         $rank = 0;
         if ($userRank == 8 && $rewardPcc >= 100000 && ($rewardPcc + $rewardScc) >= 150000000) {
-            // var_dump($userRank. ' pcc =' . $rewardPcc . ' all = ' . ($rewardPcc + $rewardScc) ); // Закомментировано для продакшена
+            var_dump($userRank. ' pcc =' . $rewardPcc . ' all = ' . ($rewardPcc + $rewardScc) );
 
             $rank = $this->getNeedRankInFirstHashArray($children, 8, 7, 9);
         }

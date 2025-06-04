@@ -1,117 +1,63 @@
 <?php
 
-
 class RewordHistory
 {
-    public function allUserRewardHistory($users = [])
-    {
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        
-        if (empty($users)) {
-            return [
-                'status' => false,
-                'message' => __('Error to add!', 'marketing')
-            ];
-        }
+    public function allUserRewardHistory(array $users) {
+        $added = false;
+        $result = ['status' => false, 'message' => __('Error to add!', 'marketing')];
 
-        $history = false;
-        foreach ($users as $user) {
-            $rewards = $this->getUserReward($user);
-            $data = $this->createRewardHistory($user, $rewards);
-            if (!$data) {
-                return [
-                    'status' => false,
-                    'message' => __('Error to add!', 'marketing')
-                ];
+        try {
+            if (!$users) {
+                return $result;
             }
-            $history = $this->updateUserReward($user, $rewards);
+
+            foreach ($users as $userId) {
+                $reword = self::getUserReward($userId);
+
+                if (!$reword) {
+                    continue;
+                }
+
+                $amount = (float)($reword['dr'] + $reword['sr'] + $reword['mr']);
+                if (!$amount) {
+                    continue;
+                }
+
+
+                $added = $this->saveRewardHistory($reword['mlm_user_id'], $amount);
+
+            }
+
+            if ($added) {
+                $result['status'] = (bool)$result;
+                $result['message'] = __('Successfully added!', 'marketing');
+            }
+        } catch (\Exception $e) {
+            $result['message'] = $e->getMessage();
         }
 
-        if ($history) {
-            $report = $this->createReport($users);
-            return [
-                'status' => true,
-                'message' => __('Successfully added!', 'marketing')
-            ];
+        return $result;
+    }
+
+    public static function getUserReward(string $userUniqueId)
+    {
+        global $wpdb;
+        $prefix = $wpdb->prefix;
+        $sql = "SELECT * FROM {$prefix}mlm_rewards  WHERE mlm_user_id = '{$userUniqueId}'";
+        $result = $wpdb->get_results($sql, 'ARRAY_A');
+
+        return $result ? $result[0] : [];
+    }
+
+    public function saveRewardHistory(string $uniqueUserId, float $amount)
+    {
+        global $wpdb;
+        $result = $wpdb->insert("{$wpdb->prefix}mlm_rewards_history", ['user_id' => $uniqueUserId, 'after_rewords_balance'=> 0, 'amount' => $amount, 'is_regular_payment' => true], ['%s', '%f', '%f']);
+
+        if ($result) {
+            $result = $wpdb->update("{$wpdb->prefix}mlm_rewards", ['dr' => 0, 'sr' => 0, 'mr' => 0], ['mlm_user_id' => $uniqueUserId], ['%f', '%f', '%f']);
         }
 
-        return [
-            'status' => false,
-            'message' => __('Error to add!', 'marketing')
-        ];
-    }
-
-    private function getUserReward($user)
-    {
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-        $sql = "SELECT * FROM {$prefix}mlm_rewards WHERE mlm_user_id = '{$user}'";
-        $rewards = $wpdb->get_results($sql, 'ARRAY_A');
-
-        return $rewards ? $rewards[0] : [];
-    }
-
-    private function updateUserReward($user, $reward)
-    {
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-
-        return $wpdb->update(
-            "{$prefix}mlm_rewards",
-            [
-                'dr' => 0,
-                'sr' => 0,
-                'mr' => 0,
-            ],
-            [
-                'mlm_user_id' => $user
-            ]
-        );
-    }
-
-    private function createRewardHistory($user, $reward)
-    {
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-
-        $amount = (float)$reward['dr'] + (float)$reward['sr'] + (float)$reward['mr'];
-        if ($amount > 0) {
-            $afterBalance = 0;
-            $history = $wpdb->insert(
-                "{$prefix}mlm_rewards_history",
-                [
-                    'user_id' => $user,
-                    'amount' => $amount,
-                    'after_rewords_balance' => $afterBalance,
-                    'is_regular_payment' => true
-                ]
-            );
-
-            return $history;
-        }
-
-        return 0;
-    }
-
-    private function createReport($users)
-    {
-        global $wpdb;
-        $prefix = $wpdb->prefix;
-
-        // TODO excel file
-        $now = date("Y_m_d_his");
-        $fileName = "report_{$now}.txt";
-
-        $history = $wpdb->insert(
-            "{$prefix}mlm_report",
-            [
-                'file_name' => $fileName,
-                'file_path' => '',
-                'type_id' => 1
-            ]
-        );
-
-        return $history;
+        return $result;
     }
 }
