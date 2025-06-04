@@ -67,13 +67,13 @@ msgid "Circulation Commodity"
 msgstr ""
 
 #: mlm-marketing.php:22
-msgid "Circulation panel"
+msgid "Circulation Panel"
 msgstr ""
 
 #: mlm-marketing.php:22 templates/circulation.php:25
 #: templates/distributor.php:23 templates/family-tree.php:22
 #: templates/rewards-history.php:16 templates/structure-p.php:22
-msgid "Commodity Circulation panel"
+msgid "Commodity Circulation Panel"
 msgstr ""
 
 #: templates/circulation.php:74
@@ -104,7 +104,7 @@ msgid "Distributor Name"
 msgstr ""
 
 #: mlm-marketing.php:21
-msgid "Distributor panel"
+msgid "Distributor Panel"
 msgstr ""
 
 #: templates/circulation.php:21 templates/distributor.php:19
@@ -145,7 +145,7 @@ msgstr ""
 #: mlm-marketing.php:24 templates/circulation.php:35
 #: templates/distributor.php:33 templates/family-tree.php:32
 #: templates/rewards-history.php:26 templates/structure-p.php:32
-msgid "Family panel"
+msgid "Family Panel"
 msgstr ""
 
 #: shortcodes/profile.php:126
@@ -429,7 +429,7 @@ msgstr ""
 #: mlm-marketing.php:23 templates/circulation.php:30
 #: templates/distributor.php:28 templates/family-tree.php:27
 #: templates/rewards-history.php:21 templates/structure-p.php:27
-msgid "Structure panel"
+msgid "Structure Panel"
 msgstr ""
 
 #: shortcodes/login.php:24 shortcodes/register.php:47
@@ -629,4 +629,217 @@ msgstr ""
 
 #: JavaScript strings
 msgid "Are you sure you want to delete this?"
+msgstr ""
+
+#: templates/circulation.php:23 templates/distributor.php:24
+#: templates/structure-p.php:39 templates/rewards-history.php:17
+#: templates/rank.php:15
+msgid "Commodity Circulation panel"
+msgstr ""
+
+#: templates/circulation.php:27 templates/distributor.php:28
+#: templates/structure-p.php:43 templates/rewards-history.php:21
+#: templates/rank.php:19
+msgid "Structure panel"
+msgstr ""
+
+#: templates/circulation.php:31 templates/distributor.php:32
+#: templates/structure-p.php:47 templates/rewards-history.php:25
+#: templates/rank.php:23
+msgid "Family panel"
+msgstr ""
+
+#: templates/circulation.php:35 templates/distributor.php:36
+#: templates/structure-p.php:51 templates/rewards-history.php:29
+#: templates/rank.php:27
+msgid "Date of Rank's change"
+msgstr ""
+
+#: templates/circulation.php:79 templates/distributor.php:60
+#: templates/rewards-history.php:55
+msgid "Create"
+msgstr ""
+
+#: templates/circulation.php:91
+msgid "Transactions Table"
+msgstr ""
+
+#: templates/distributor.php:236
+msgid "Edit Details"
+msgstr ""
+
+#: templates/distributor.php:46
+msgid "Distributor Register"
+msgstr ""
+
+#: templates/distributor.php:64
+msgid "Current Users"
+msgstr ""
+
+#: mlm-marketing.php:58
+msgid "Settings saved!"
+msgstr ""
+
+#: mlm-marketing.php:69
+msgid "MLM Settings"
+msgstr ""
+
+#: mlm-marketing.php:73
+msgid "Default Sponsor"
+msgstr ""
+
+#: mlm-marketing.php:77
+msgid "Auto Process Orders"
+msgstr ""
+
+#: mlm-marketing.php:81
+msgid "reCAPTCHA Settings"
+msgstr ""
+
+#: mlm-marketing.php:85
+msgid "Enable reCAPTCHA"
+msgstr ""
+
+#: mlm-marketing.php:93
+msgid "Get keys at"
+msgstr ""
+
+#: services/RewordsHistoryReport.php:106
+msgid "Sl no"
+msgstr ""
+
+#: services/RewordsHistoryReport.php:107 services/StructureReport.php:102
+msgid "User ID"
+msgstr ""
+
+#: services/RewordsHistoryReport.php:108 services/StructureReport.php:103
+msgid "Name"
+msgstr ""
+
+#: services/RewordsHistoryReport.php:109
+msgid "Payout Rewards"
+msgstr ""
+
+#: services/RewordsHistoryReport.php:110
+msgid "After account balance"
+msgstr ""
+
+#: services/RewordsHistoryReport.php:111
+msgid "Payout Date and Time"
+msgstr ""
+
+#: services/StructureReport.php:101
+msgid "Sl no"
+msgstr ""
+
+#: services/StructureReport.php:102
+msgid "Distributor ID"
+msgstr ""
+
+#: services/StructureReport.php:103
+msgid "Distributor Name"
+msgstr ""
+
+#: services/StructureReport.php:104
+msgid "Rank"
+msgstr ""
+
+#: services/StructureReport.php:105
+msgid "Sponsor ID"
+msgstr ""
+
+#: services/StructureReport.php:106
+msgid "Sponsor Name"
+msgstr ""
+
+#: services/StructureReport.php:107
+msgid "PCC"
+msgstr ""
+
+#: services/StructureReport.php:108
+msgid "SCC"
+msgstr ""
+
+#: services/StructureReport.php:109
+msgid "DR"
+msgstr ""
+
+#: services/StructureReport.php:110
+msgid "SR"
+msgstr ""
+
+#: services/StructureReport.php:111
+msgid "MR"
+msgstr ""
+
+#: services/StructureReport.php:112
+msgid "BR"
+msgstr ""
+
+#: services/StructureReport.php:113
+msgid "BRC"
+msgstr ""
+
+#: services/StructureReport.php:114
+msgid "ALLR"
+msgstr ""
+
+#: services/RankReward.php:684
+msgid "You have a chance to win a voucher worth 400 thousand tenge!"
+msgstr ""
+
+#: services/RankReward.php:686
+msgid "You have a chance to win a voucher worth 1 million tenge!"
+msgstr ""
+
+#: services/RankReward.php:688
+msgid "You have a chance to win a voucher worth 2 million tenge!"
+msgstr ""
+
+#: services/RankReward.php:706
+msgid "Congratulations! You have earned a voucher worth 400 thousand tenge!"
+msgstr ""
+
+#: services/RankReward.php:713
+msgid "Congratulations! You have earned a voucher worth 1 million tenge!"
+msgstr ""
+
+#: services/RankReward.php:720
+msgid "Congratulations! You have earned a voucher worth 2 million tenge!"
+msgstr ""
+
+#: templates/structure-p.php:38
+msgid "List of reports (Pay)"
+msgstr ""
+
+#: templates/structure-p.php:53
+msgid "List of reports (Payed)"
+msgstr ""
+
+#: templates/structure-p.php:72 templates/structure-p.php:76
+msgid "File"
+msgstr ""
+
+#: templates/structure-p.php:137
+msgid "Select All"
+msgstr ""
+
+#: templates/structure-p.php:164
+msgid "Pay"
+msgstr ""
+
+#: templates/circulation.php:96 templates/distributor.php:77
+msgid "City Name"
+msgstr ""
+
+#: templates/circulation.php:100
+msgid "Source"
+msgstr ""
+
+#: templates/circulation.php:127
+msgid "site"
+msgstr ""
+
+#: templates/circulation.php:127
+msgid "direct"
 msgstr ""

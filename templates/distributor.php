@@ -20,17 +20,17 @@ $users = $datatable->get_all_current_distrubutor_city();
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-commodity-circulation-panel'; ?>">
-                    <?php _e('Commodity Circulation panel', 'marketing') ?>
+                    <?php _e('Commodity Circulation Panel', 'marketing') ?>
                 </a>
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-structure-panel'; ?>">
-                    <?php _e('Structure panel', 'marketing'); ?>
+                    <?php _e('Structure Panel', 'marketing'); ?>
                 </a>
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-family-panel'; ?>">
-                    <?php _e('Family panel', 'marketing'); ?>
+                    <?php _e('Family Panel', 'marketing'); ?>
                 </a>
             </li>
             <li>
@@ -63,7 +63,7 @@ $users = $datatable->get_all_current_distrubutor_city();
             </select>
 
             <input type="hidden" name="action" value="mlm_distributor_register">
-            <input type="submit" name="submit" value="Create">
+            <input type="submit" name="submit" value="<?php _e('Create', 'marketing'); ?>">
         </form>
     </div>
     <h3><?php _e('Current Users', 'marketing'); ?></h3>
@@ -118,7 +118,7 @@ $users = $datatable->get_all_current_distrubutor_city();
 
 <div id="popup1" class="overlay-popup">
     <div class="popup">
-        <h2>Edit Details</h2>
+        <h2><?php _e('Edit Details', 'marketing'); ?></h2>
         <a class="close">&times;</a>
         <div class="content" id="ppcont">
             <form class="form_cla form_CLa">
