@@ -78,7 +78,7 @@
                     <tr>
                         <td><?= $i; ?></td>
                         <td><?= $transaction->amount . ' c.u.'; ?></td>
-                        <td><?= $date->format('F j, Y'); ?></td>
+                        <td><?= $date->format('d.m.Y'); ?></td>
                     </tr>
                     <?php $i++;
                 } ?>
@@ -117,7 +117,7 @@
                     <td><?= $i; ?></td>
                     <td><?= $item->unique_id; ?></td>
                     <td><?= $item->amount; ?></td>
-                    <td><?= $date->format('F j, Y H:i:s') ?></td>
+                    <td><?= $date->format('d.m.Y H:i:s') ?></td>
                     <td><?= $item->after_rewords_balance; ?></td>
                 </tr>
                 <?php $i++; } ?>

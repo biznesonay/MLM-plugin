@@ -86,7 +86,7 @@ $rewardsHistory = $datatable->getAllRewardsHistory();
                 <td><?= $item->user_name; ?></td>
                 <td><?= $item->amount; ?></td>
                 <td><?= $item->after_rewords_balance; ?></td>
-                <td><?= $date->format('F j, Y H:i:s') ?></td>
+                <td><?= $date->format('d.m.Y H:i:s') ?></td>
             </tr>
             <?php $i++; } ?>
         </tbody>

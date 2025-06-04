@@ -62,7 +62,7 @@ $data = $datatable->getAllUserRank();
                 <td><?= $item['unique_id']; ?></td>
                 <td><?= $item['user_name']; ?></td>
                 <td><?= $item['rank_id']; ?></td>
-                <td data-order="<?= $timestamp; ?>"><?= $date->format('F j, Y H:i:s') ?></td>
+                <td data-order="<?= $timestamp; ?>"><?= $date->format('d.m.Y H:i:s') ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>

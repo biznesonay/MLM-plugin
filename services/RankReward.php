@@ -289,7 +289,7 @@ class RankReward
         if ($parents) {
             foreach ($parents as $parent) {
                 if ($parent['rank'] > 6) {
-                    $status = RankDB::saveRewardByCondition($parent['unique_id'], ['scc_at' => date('Y-m-d H:i:s')]);
+                    $status = RankDB::saveRewardByCondition($parent['unique_id'], ['scc_at' => date('d.m.Y H:i:s')]);
                 }
             }
         }
@@ -359,15 +359,15 @@ class RankReward
         $status = false;
         $reward = RankDB::getUserReward($userId);
 
-        $startDateUnix = $reward && $reward['br_start_at'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $reward['br_start_at'])->format('Y-m-d') : null;
-        $endDateUnix = $reward && $reward['scc_at'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $reward['scc_at'])->format('Y-m-d') : null;
+        $startDateUnix = $reward && $reward['br_start_at'] ? \DateTime::createFromFormat('d.m.Y H:i:s', $reward['br_start_at'])->format('d.m.Y') : null;
+        $endDateUnix = $reward && $reward['scc_at'] ? \DateTime::createFromFormat('d.m.Y H:i:s', $reward['scc_at'])->format('d.m.Y') : null;
         $userPrevBrBalance = $reward && $reward['prev_br_balance'] ? (float)$reward['prev_br_balance'] : 0.0;
 
         if (!$startDateUnix) {
             $transaction = RankDB::getUserFirstTransaction($userId);
             if ($transaction) {
-                $startDateUnix = date('Y-m-d', $transaction['date']);
-                RankDB::saveRewardByCondition($userId, ['br_start_at' => date('Y-m-d H:i:s', $transaction['date'])]);
+                $startDateUnix = date('d.m.Y', $transaction['date']);
+                RankDB::saveRewardByCondition($userId, ['br_start_at' => date('d.m.Y H:i:s', $transaction['date'])]);
             }
         }
 
@@ -387,12 +387,12 @@ class RankReward
                     $status = RankDB::saveRewardByCondition($userId, ['br' => 1, 'prev_br_balance' => $totalBalance]);
                     $newStartDate = new DateTime();
                     $newStartDate->modify('+1 day');
-                    $newStartDate = $newStartDate->format('Y-m-d H:i:s');
+                    $newStartDate = $newStartDate->format('d.m.Y H:i:s');
                     RankDB::saveRewardByCondition($userId, ['br_start_at' => $newStartDate]);
                 }
             } else {
                 $transaction = RankDB::getUserNextTransactionByDate($userId, $startDateUnix);
-                $newStartDate = $transaction ? date('Y-m-d H:i:s', $transaction['date']) : null;
+                $newStartDate = $transaction ? date('d.m.Y H:i:s', $transaction['date']) : null;
                 if ($newStartDate) {
                     $status = RankDB::saveRewardByCondition($userId, ['br_start_at' => $newStartDate]);
                 }
@@ -407,16 +407,16 @@ class RankReward
         $status = false;
         $reward = RankDB::getUserReward($userId);
         $userRank = RankDB::getUserRank($userId, $rank);
-        $startDateUnix = $userRank && $userRank['created_at'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $userRank['created_at'])->format('Y-m-d') : null;
-//        $startDateUnix = $reward && $reward['br_start_at'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $reward['br_start_at'])->format('Y-m-d') : null;
+        $startDateUnix = $userRank && $userRank['created_at'] ? \DateTime::createFromFormat('d.m.Y H:i:s', $userRank['created_at'])->format('d.m.Y') : null;
+//        $startDateUnix = $reward && $reward['br_start_at'] ? \DateTime::createFromFormat('d.m.Y H:i:s', $reward['br_start_at'])->format('d.m.Y') : null;
         $userPrevBrBalance = isset($userRank['pcc_scc']) && $userRank['pcc_scc'] ? (float)$userRank['pcc_scc'] : 0.0;
 //        $userPrevBrBalance = $reward && $reward['prev_br_balance'] ? (float)$reward['prev_br_balance'] : 0.0;
 
 //        if (!$startDateUnix) {
 //            $transaction = RankDB::getUserFirstTransaction($userId);
 //            if ($transaction) {
-//                $startDateUnix = date('Y-m-d', $transaction['date']);
-//                RankDB::saveRewardByCondition($userId, ['br_start_at' => date('Y-m-d H:i:s', $transaction['date'])]);
+//                $startDateUnix = date('d.m.Y', $transaction['date']);
+//                RankDB::saveRewardByCondition($userId, ['br_start_at' => date(, $transaction['date'])]);
 //            }
 //        }
 
@@ -484,7 +484,7 @@ class RankReward
             }
         } else {
 //            $transaction = RankDB::getUserNextTransactionByDate($userId, $startDateUnix);
-//            $newStartDate = $transaction ? date('Y-m-d H:i:s', $transaction['date']) : null;
+//            $newStartDate = $transaction ? date('d.m.Y H:i:s', $transaction['date']) : null;
 //            if ($newStartDate) {
 //                $status = RankDB::saveRewardByCondition($userId, ['br_start_at' => $newStartDate]);
             RankDB::deleteBrNotification($userId);
@@ -526,7 +526,7 @@ class RankReward
     {
         $newStartDate = new DateTime();
         $newStartDate->modify('+1 day');
-        $newStartDate = $newStartDate->format('Y-m-d H:i:s');
+        $newStartDate = $newStartDate->format('d.m.Y H:i:s');
         $status = RankDB::saveRewardByCondition($userId, ['br_start_at' => $newStartDate]);
 
         return $status;

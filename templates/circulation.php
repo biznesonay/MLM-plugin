@@ -111,7 +111,7 @@ $results = $datatable->get_all_transuctions();
                 <td><?= $result->user_name; ?></td>
                 <td><?= $result->post_id ? __('site', 'marketing') : __('direct', 'marketing'); ?></td>
                 <td><?= $result->amount . ' c.u.'; ?></td>
-                <td data-order="<?= $result->transuction_date; ?>"><?= $date->format('F j, Y H:i:s'); ?></td>
+                <td data-order="<?= $result->transuction_date; ?>"><?= $date->format('d.m.Y H:i:s'); ?></td>
             </tr>
             <?php $i++;
         } ?>

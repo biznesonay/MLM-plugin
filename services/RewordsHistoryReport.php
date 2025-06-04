@@ -77,7 +77,7 @@ class RewordsHistoryReport
             $sheet->setCellValue('C' . $i, $val['user_name']);
             $sheet->setCellValue('D' . $i, $val['amount']);
             $sheet->setCellValue('E' . $i, $val['after_rewords_balance']);
-            $sheet->setCellValue('F' . $i, $date->format('F j, Y H:i:s'));
+            $sheet->setCellValue('F' . $i, $date->format('d.m.Y H:i:s'));
             $i++;
         }
     }
@@ -108,13 +108,13 @@ class RewordsHistoryReport
         $monday = clone $now;
         $monday->modify('monday this week');
         $monday->setTime(0, 0, 0);
-        $startWeek = $monday->format('Y-m-d H:i:s');
+        $startWeek = $monday->format('d.m.Y H:i:s');
         
         // Воскресенье этой недели в 23:59:59
         $sunday = clone $now;
         $sunday->modify('sunday this week');
         $sunday->setTime(23, 59, 59);
-        $endWeek = $sunday->format('Y-m-d H:i:s');
+        $endWeek = $sunday->format('d.m.Y H:i:s');
 
         $sql = "SELECT h.amount, h.after_rewords_balance, h.created_at, u.unique_id, u.user_name FROM {$prefix}mlm_rewards_history h ";
         $sql .= "INNER JOIN {$prefix}mlm_users u ON h.user_id = u.unique_id ";

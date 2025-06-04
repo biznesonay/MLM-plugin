@@ -183,7 +183,7 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
                     <td><?= $item['unique_id']; ?></td>
                     <td><?= $item['user_name']; ?></td>
                     <td><?= $item['rank_id']; ?></td>
-                    <td><?= $date->format('F j, Y H:i:s') ?></td>
+                    <td><?= $date->format('d.m.Y H:i:s') ?></td>
                 </tr>
                 <?php $i++; } ?>
             </tbody>
@@ -218,27 +218,27 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
         }
 
         function dateFormat(timestamp) {
-            const date = new Date(timestamp * 1000);
-            // Форматируем дату для часового пояса Алматы
-            const options = {
-                ...almatyTimeZone,
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            };
-            
-            const parts = new Intl.DateTimeFormat('en-US', options).formatToParts(date);
-            const values = {};
-            parts.forEach(part => {
-                values[part.type] = part.value;
-            });
-            
-            return `${values.day}.${values.month}.${values.year} ${values.hour}:${values.minute}:${values.second}`;
-        }
+    const date = new Date(timestamp * 1000);
+    // Форматируем дату для часового пояса Алматы
+    const options = {
+        ...almatyTimeZone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    };
+    
+    const parts = new Intl.DateTimeFormat('en-US', options).formatToParts(date);
+    const values = {};
+    parts.forEach(part => {
+        values[part.type] = part.value;
+    });
+    
+    return `${values.day}.${values.month}.${values.year} ${values.hour}:${values.minute}:${values.second}`;
+}
 
         const id = jQuery('input[name="login_user_id"]').val();
 

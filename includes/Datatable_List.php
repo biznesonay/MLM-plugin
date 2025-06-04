@@ -202,7 +202,7 @@ private function register_user($email, $password, $name, $sponsorid, $phone, $ci
             $this->insert_data('mlm_rewards', $insert_data2);
 
             $date = new \DateTime();
-            $sr_at = $date->modify('+30 day')->format('Y-m-d');
+            $sr_at = $date->modify('+30 day')->format('d.m.Y');
 
             $this->updateData('mlm_users', ['sr_at' => $sr_at], ['unique_id' => $sponsorid]);
 

@@ -31,7 +31,7 @@ class Reward
         $result = [];
         if ($parents) {
             $parentList = $parents;
-            $now = date('Y-m-d');
+            $now = date('d.m.Y');
 
             foreach ($parents as $parentKey => $parent) {
                 $parentId = $parent['unique_id'];
