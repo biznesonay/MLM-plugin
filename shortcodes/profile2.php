@@ -200,11 +200,26 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
     </div>
 
     <div class="user-child">
-        <h1><?php _e('Family Panel', 'marketing') ?></h1>
+        <h1><?php _e('Family panel', 'marketing') ?></h1>
         <div id="tree-container"></div>
     </div>
 </div>
 
+<script>
+var mlm_translations = {
+    error: '<?php _e('Error', 'marketing'); ?>',
+    success: '<?php _e('Success', 'marketing'); ?>',
+    loading: '<?php _e('Loading...', 'marketing'); ?>',
+    search: '<?php _e('Search:', 'marketing'); ?>',
+    show_menu: '<?php _e('Show _MENU_ entries', 'marketing'); ?>',
+    showing_empty: '<?php _e('Showing 0 to 0 of 0 entries', 'marketing'); ?>',
+    no_data: '<?php _e('No data available in table', 'marketing'); ?>',
+    first: '<?php _e('First', 'marketing'); ?>',
+    previous: '<?php _e('Previous', 'marketing'); ?>',
+    next: '<?php _e('Next', 'marketing'); ?>',
+    last: '<?php _e('Last', 'marketing'); ?>'
+};
+</script>
 
 <script>
     const adminAjax = "<?= admin_url('admin-ajax.php'); ?>";

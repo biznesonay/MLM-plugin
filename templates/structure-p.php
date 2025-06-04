@@ -41,17 +41,17 @@ $payedFiles = $datatable->getAllPayedReportFile();
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-commodity-circulation-panel'; ?>">
-                    <?php _e('Commodity Circulation Panel', 'marketing') ?>
+                    <?php _e('Commodity Circulation panel', 'marketing') ?>
                 </a>
             </li>
             <li class="act">
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-structure-panel'; ?>">
-                    <?php _e('Structure Panel', 'marketing'); ?>
+                    <?php _e('Structure panel', 'marketing'); ?>
                 </a>
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-family-panel'; ?>">
-                    <?php _e('Family Panel', 'marketing'); ?>
+                    <?php _e('Family panel', 'marketing'); ?>
                 </a>
             </li>
             <li>
@@ -131,7 +131,7 @@ $payedFiles = $datatable->getAllPayedReportFile();
     </div>
 
     <div id="structure-panel" class="tavsect">
-        <h3><?php _e('Structure Panel', 'marketing') ?></h3>
+        <h3><?php _e('Structure panel', 'marketing') ?></h3>
 
         <table id="structure-table" class="ui celled table" style="width:100%">
             <thead>

@@ -15,15 +15,15 @@ $user = $datatable->get_all_cond_data('mlm_users',$condition);
 	<div class="trR">
 		<ul>
 			<li><a href="<?= get_admin_url().'admin.php?page=mlm-distributor-panel'; ?>">distributor panel</a></li>
-			<li><a href="<?= get_admin_url().'admin.php?page=mlm-commodity-circulation-panel'; ?>">Commodity Circulation Panel</a></li>
-			<li class="act"><a href="<?= get_admin_url().'admin.php?page=mlm-structure-panel'; ?>">Structure Panel</a></li>
+			<li><a href="<?= get_admin_url().'admin.php?page=mlm-commodity-circulation-panel'; ?>">Commodity Circulation panel</a></li>
+			<li class="act"><a href="<?= get_admin_url().'admin.php?page=mlm-structure-panel'; ?>">Structure panel</a></li>
             <li><a href="<?= get_admin_url().'admin.php?page=mlm-rewards-history-panel'; ?>">Rewards History</a></li>
         </ul>
 	</div>
 	<div class="ttbcs">
 		<ul>
 			<li class="aatabs"><a data-id="family-tree" class="ttabsa">Family Tree</a></li>
-			<li><a data-id="structure-panel" class="ttabsa">Structure Panel</a></li>
+			<li><a data-id="structure-panel" class="ttabsa">Structure panel</a></li>
 		</ul>
 		<div class="aaEbs">
 			<form action="" method="GET">

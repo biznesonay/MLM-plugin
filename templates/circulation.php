@@ -21,17 +21,17 @@ $results = $datatable->get_all_transuctions();
             </li>
             <li class="act">
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-commodity-circulation-panel'; ?>">
-                    <?php _e('Commodity Circulation Panel', 'marketing') ?>
+                    <?php _e('Commodity Circulation panel', 'marketing') ?>
                 </a>
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-structure-panel'; ?>">
-                    <?php _e('Structure Panel', 'marketing'); ?>
+                    <?php _e('Structure panel', 'marketing'); ?>
                 </a>
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-family-panel'; ?>">
-                    <?php _e('Family Panel', 'marketing'); ?>
+                    <?php _e('Family panel', 'marketing'); ?>
                 </a>
             </li>
             <li>
@@ -151,6 +151,17 @@ $results = $datatable->get_all_transuctions();
 <?php } ?>
 
 <script>
+var mlm_translations = {
+    are_you_sure: '<?php _e('Are you sure?', 'marketing'); ?>',
+    confirm_create: '<?php _e('Do you wont to create Circulation Commodity', 'marketing'); ?>',
+    yes: '<?php _e('Yes', 'marketing'); ?>',
+    error: '<?php _e('Error', 'marketing'); ?>',
+    success: '<?php _e('Success', 'marketing'); ?>',
+    you_wont_revert: '<?php _e('You wont be able to revert this!', 'marketing'); ?>'
+};
+</script>
+
+<script>
     jQuery(document).ready(function () {
         jQuery('.ui.dropdown').dropdown();
         jQuery('#transaction').DataTable({
@@ -188,7 +199,7 @@ $results = $datatable->get_all_transuctions();
         jQuery('#circulation-form').submit(function (e) {
             e.preventDefault();
             Swal.fire({
-                title: "<?php _e('Are you sure?', 'marketing') ?>",
+                title: mlm_translations.are_you_sure,
                 text: "<?php _e('Do you wont to create Circulation Commodity', 'marketing') ?>",
                 icon: 'warning',
                 showCancelButton: true,
@@ -230,7 +241,7 @@ $results = $datatable->get_all_transuctions();
 
     function deleteTransaction(id) {
         Swal.fire({
-            title: "<?php _e('Are you sure?', 'marketing') ?>",
+            title: mlm_translations.are_you_sure,
             text: "<?php _e('You wont be able to revert this!', 'marketing') ?>",
             icon: 'warning',
             showCancelButton: true,

@@ -4,7 +4,7 @@ class RankReward
 {
     public function calculate($balance, $userUniqueId): array
     {
-        $result = ['status' => false, 'message' => translate('Error to create')];
+        $result = ['status' => false, 'message' => __('Error to create', 'marketing')]; // Исправлено с translate() на __()
         $curUserWithReward = RankDB::geUserRankWithReward($userUniqueId);
         $userRank = $curUserWithReward ? (int)$curUserWithReward['rank'] : 0;
         $clearBalance = $balance;
@@ -40,7 +40,7 @@ class RankReward
             $this->calculateBrAndBrCar($userUniqueId, $userRank);
 
             $result['status'] = true;
-            $result['message'] = translate('Successfully created');
+            $result['message'] = __('Successfully created', 'marketing'); // Исправлено
         }
 
         return $result;
