@@ -21,17 +21,17 @@ $results = $datatable->get_all_transuctions();
             </li>
             <li class="act">
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-commodity-circulation-panel'; ?>">
-                    <?php _e('Commodity Circulation panel', 'marketing') ?>
+                    <?php _e('Commodity Circulation Panel', 'marketing') ?>
                 </a>
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-structure-panel'; ?>">
-                    <?php _e('Structure panel', 'marketing'); ?>
+                    <?php _e('Structure Panel', 'marketing'); ?>
                 </a>
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-family-panel'; ?>">
-                    <?php _e('Family panel', 'marketing'); ?>
+                    <?php _e('Family Panel', 'marketing'); ?>
                 </a>
             </li>
             <li>
@@ -81,10 +81,10 @@ $results = $datatable->get_all_transuctions();
             <input type="number" name="mlm_circulation_commodity" id="amount" required readonly>
 
             <input type="hidden" name="action" value="mlm_circulation_commodity">
-            <input type="submit" name="submit" value="Create">
+            <input type="submit" name="submit" value="<?php _e('Create', 'marketing'); ?>">
         </form>
     </div>
-    <h3>Transactions Table</h3>
+    <h3><?php _e('Transactions Table', 'marketing'); ?></h3>
     <table id="transaction" class="ui celled table" style="width:100%">
         <thead>
         <tr>

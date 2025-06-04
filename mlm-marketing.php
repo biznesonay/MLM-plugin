@@ -3,7 +3,7 @@
 Plugin Name: MLM Marketing
 Plugin URI:  https://biznesonay.kz
 Description: This plugin for multi lavel marketing and rank basis reward.
-Version:     1.0.8.8
+Version:     1.0.8.9
 Author:      BiznesOnay
 Author URI:  https://biznesonay.kz
 License:     GPL2
@@ -59,7 +59,7 @@ function mlm_settings_page() {
         update_option('mlm_recaptcha_site_key', sanitize_text_field($_POST['recaptcha_site_key']));
         update_option('mlm_recaptcha_secret_key', sanitize_text_field($_POST['recaptcha_secret_key']));
         update_option('mlm_recaptcha_enabled', isset($_POST['recaptcha_enabled']) ? 'yes' : 'no');
-        echo '<div class="notice notice-success"><p>Настройки сохранены!</p></div>';
+        echo '<div class="notice notice-success"><p>' . __('Settings saved!', 'marketing') . '</p></div>';
     }
     
     $default_sponsor = get_option('mlm_default_sponsor', 'USER1');
@@ -105,7 +105,7 @@ function mlm_settings_page() {
     <?php
 }
 //    add_submenu_page('mlm-overview', __('Parser', 'marketing'), __('Parser', 'marketing'), 'manage_options', 'parser', 'parser');
-    add_submenu_page('mlm-overview', __('Date of Rank’s change', 'marketing'), __('Date of Rank’s change', 'marketing'), 'manage_options', 'rank', 'rank');
+    add_submenu_page('mlm-overview', __('Distributor Panel', 'marketing'), __('Distributor Panel', 'marketing'), 'manage_options', 'mlm-distributor-panel', 'distributor_panel');
 }
 
 function create_plugin_database_table()
