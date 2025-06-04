@@ -40,7 +40,7 @@ $users = $datatable->get_all_current_distrubutor_city();
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=rank'; ?>">
-                    <?php _e('Date of Rank’s change', 'marketing') ?>
+                    <?php _e('Date of Rank\'s change', 'marketing') ?>
                 </a>
             </li>
         </ul>
@@ -49,12 +49,12 @@ $users = $datatable->get_all_current_distrubutor_city();
     <div class="FRuy">
         <form class="form_cla" id="distributor-register-form" action="<?= admin_url('admin-post.php'); ?>"
               method="POST">
-            <h3><?php _e('Distributor Register', 'distributor-register'); ?></h3>
-            <label for="distributor_name"><?php _e('Name', 'distributor-register'); ?> <strong>*</strong></label>
+            <h3><?php _e('Distributor Register', 'marketing'); ?></h3>
+            <label for="distributor_name"><?php _e('Name', 'marketing'); ?> <strong>*</strong></label>
             <input type="text" name="mlm_distributor_name" id="distributor_name" required>
-            <label for="distributor_phone"><?php _e('Phone', 'distributor-register'); ?> <strong>*</strong></label>
+            <label for="distributor_phone"><?php _e('Phone', 'marketing'); ?> <strong>*</strong></label>
             <input type="text" name="mlm_distributor_phone" id="distributor_phone" required value="+7 (___) ___-__-__">
-            <label for="distributor_sponsor"><?php _e('Sponsor ID', 'distributor-register'); ?><strong>*</strong></label>
+            <label for="distributor_sponsor"><?php _e('Sponsor ID', 'marketing'); ?> <strong>*</strong></label>
             <select class="ui search dropdown" name="mlm_distributor_sponsor" id="distributor_sponsor" required>
                 <option value=""><?php _e('Select Sponsor', 'marketing'); ?></option>
                 <?php foreach ($sponsors as $sponsor) { ?>
@@ -63,7 +63,7 @@ $users = $datatable->get_all_current_distrubutor_city();
             </select>
 
             <input type="hidden" name="action" value="mlm_distributor_register">
-            <input type="submit" name="submit" value="Create">
+            <input type="submit" name="submit" value="<?php _e('Create', 'marketing'); ?>">
         </form>
     </div>
     <h3><?php _e('Current Users', 'marketing'); ?></h3>
@@ -118,13 +118,13 @@ $users = $datatable->get_all_current_distrubutor_city();
 
 <div id="popup1" class="overlay-popup">
     <div class="popup">
-        <h2>Edit Details</h2>
+        <h2><?php _e('Edit Details', 'marketing'); ?></h2>
         <a class="close">&times;</a>
         <div class="content" id="ppcont">
             <form class="form_cla form_CLa">
-                <label>Name</label>
+                <label><?php _e('Name', 'marketing'); ?></label>
                 <input type="text" name="name">
-                <input type="submit" name="submit" value="Create">
+                <input type="submit" name="submit" value="<?php _e('Create', 'marketing'); ?>">
             </form>
         </div>
     </div>

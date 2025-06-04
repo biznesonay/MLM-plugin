@@ -150,7 +150,7 @@ private function register_user($email, $password, $name, $sponsorid, $phone, $ci
     
     // Проверяем существование номера
     if ($this->getUserByPhone($phoneNumber)) {
-        $errors['error'] = __('Phone already exits', 'marketing');
+        $errors['error'] = __('Phone already exists', 'marketing');
         return $errors;
     }
     
@@ -209,7 +209,7 @@ private function register_user($email, $password, $name, $sponsorid, $phone, $ci
             $result['userid'] = $user_id;
         }
     } catch (Exception $e) {
-        $errors['error'] = 'Ошибка регистрации: ' . $e->getMessage();
+        $errors['error'] = __('Registration error: ', 'marketing') . $e->getMessage();
         return $errors;
     }
 

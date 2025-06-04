@@ -194,7 +194,7 @@ $results = $datatable->get_all_transuctions();
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes'
+                confirmButtonText: '<?php _e('Yes', 'marketing') ?>'
             }).then((result) => {
                 if (result.value) {
                     jQuery('.pre-loader').css('display', 'block');
@@ -236,7 +236,7 @@ $results = $datatable->get_all_transuctions();
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes'
+            confirmButtonText: '<?php _e('Yes', 'marketing') ?>'
         }).then((result) => {
             if (result.value) {
                 jQuery('.prespinner').css('display', 'block');

@@ -61,7 +61,7 @@ $payedFiles = $datatable->getAllPayedReportFile();
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=rank'; ?>">
-                    <?php _e('Date of Rank’s change', 'marketing') ?>
+                    <?php _e('Date of Rank\'s change', 'marketing') ?>
                 </a>
             </li>
         </ul>
