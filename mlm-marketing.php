@@ -3,13 +3,17 @@
 Plugin Name: MLM Marketing
 Plugin URI:  https://biznesonay.kz
 Description: This plugin for multi lavel marketing and rank basis reward.
-Version:     1.0.8.7
+Version:     1.0.8.8
 Author:      BiznesOnay
 Author URI:  https://biznesonay.kz
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
+/*
+ * Text Domain: marketing
+ * Domain Path: /languages
+ */
 
 require_once(ABSPATH . 'wp-config.php');
 
@@ -21,6 +25,12 @@ add_action('init', function() {
     global $wpdb;
     $wpdb->query("SET time_zone = '+06:00'");
 });
+
+// Загрузка текстового домена для переводов
+function mlm_load_textdomain() {
+    load_plugin_textdomain('marketing', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+}
+add_action('plugins_loaded', 'mlm_load_textdomain');
 
 add_action('admin_menu', 'my_admin_menu');
 

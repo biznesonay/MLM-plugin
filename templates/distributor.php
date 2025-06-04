@@ -20,17 +20,17 @@ $users = $datatable->get_all_current_distrubutor_city();
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-commodity-circulation-panel'; ?>">
-                    <?php _e('Commodity Circulation Panel', 'marketing') ?>
+                    <?php _e('Commodity Circulation panel', 'marketing') ?>
                 </a>
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-structure-panel'; ?>">
-                    <?php _e('Structure Panel', 'marketing'); ?>
+                    <?php _e('Structure panel', 'marketing'); ?>
                 </a>
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=mlm-family-panel'; ?>">
-                    <?php _e('Family Panel', 'marketing'); ?>
+                    <?php _e('Family panel', 'marketing'); ?>
                 </a>
             </li>
             <li>
