@@ -142,16 +142,16 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
             <tr>
                 <th><?php _e('Sl no', 'marketing') ?>.</th>
                 <th><?php _e('Payout Rewards', 'marketing') ?></th>
-                <th><?php _e('After account balance', 'marketing') ?></th>
-                <th><?php _e('Payout Date and Time', 'marketing'); ?></th>
+                <th><?php _e('Payout Date and Time', 'marketing') ?></th>
+                <th><?php _e('After account balance', 'marketing'); ?></th>
             </tr>
             </thead>
             <tfoot>
             <tr>
                 <th><?php _e('Sl no', 'marketing') ?>.</th>
                 <th><?php _e('Payout Rewards', 'marketing') ?></th>
-                <th><?php _e('After account balance', 'marketing') ?></th>
-                <th><?php _e('Payout Date and Time', 'marketing'); ?></th>
+                <th><?php _e('Payout Date and Time', 'marketing') ?></th>
+                <th><?php _e('After account balance', 'marketing'); ?></th>
             </tr>
             </tfoot>
         </table>
