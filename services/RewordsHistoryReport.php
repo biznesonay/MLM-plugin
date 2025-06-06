@@ -98,7 +98,7 @@ class RewordsHistoryReport
         $prefix = $wpdb->prefix;
         
         // Устанавливаем часовой пояс для MySQL
-        $wpdb->query("SET time_zone = '+06:00'");
+        $wpdb->query("SET time_zone = '+05:00'");
 
         // Получаем даты с учетом часового пояса
         $timezone = new DateTimeZone('Asia/Almaty');
@@ -131,7 +131,7 @@ class RewordsHistoryReport
         global $wpdb;
         
         // Устанавливаем часовой пояс для корректного сохранения времени
-        $wpdb->query("SET time_zone = '+06:00'");
+        $wpdb->query("SET time_zone = '+05:00'");
         
         $insert_data = [
             'file_name' => $fileName, 

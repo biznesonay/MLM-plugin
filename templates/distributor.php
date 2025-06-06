@@ -63,7 +63,7 @@ $users = $datatable->get_all_current_distrubutor_city();
             </select>
 
             <input type="hidden" name="action" value="mlm_distributor_register">
-            <input type="submit" name="submit" value="<?php _e('Create', 'marketing'); ?>">
+            <input type="submit" name="submit" value="Create">
         </form>
     </div>
     <h3><?php _e('Current Users', 'marketing'); ?></h3>
@@ -118,7 +118,7 @@ $users = $datatable->get_all_current_distrubutor_city();
 
 <div id="popup1" class="overlay-popup">
     <div class="popup">
-        <h2><?php _e('Edit Details', 'marketing'); ?></h2>
+        <h2>Edit Details</h2>
         <a class="close">&times;</a>
         <div class="content" id="ppcont">
             <form class="form_cla form_CLa">

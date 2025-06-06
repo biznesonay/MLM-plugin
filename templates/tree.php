@@ -30,20 +30,6 @@ $users = UserTree::getUsers();
     }
 </style>
 
-<!-- Объект с переводами для JavaScript -->
-<script>
-var mlm_translations = {
-    rewards: '<?php _e('Rewards', 'marketing'); ?>',
-    search_user: '<?php _e('Search User', 'marketing'); ?>',
-    pcc_scc: '<?php _e('PCC+SCC', 'marketing'); ?>',
-    dr: '<?php _e('DR', 'marketing'); ?>',
-    sr: '<?php _e('SR', 'marketing'); ?>',
-    mr: '<?php _e('MR', 'marketing'); ?>',
-    error: '<?php _e('Error', 'marketing'); ?>',
-    success: '<?php _e('Success', 'marketing'); ?>',
-    loading: '<?php _e('Loading...', 'marketing'); ?>'
-};
-</script>
 
 <script>
     const users = <?= json_encode($users) ?>;
@@ -100,14 +86,11 @@ var mlm_translations = {
                 success: function (r) {
                     r = JSON.parse(r);
                     const amount = parseFloat(r.pcc) + parseFloat(r.scc);
-                    const text = mlm_translations.pcc_scc + " = " + amount + 
-                            '; ' + mlm_translations.dr + ' = ' + r.dr + 
-                            '; ' + mlm_translations.sr + ' = ' + r.sr + 
-                            '; ' + mlm_translations.mr + ' = ' + r.mr;
+                    const text = "PCC+SCC = " + amount + '; DR = ' + r.dr + '; SR ' + r.sr + '; MR= ' + r.mr;
                     Swal.fire({
                         // icon: 'success',
                         // position: 'top-end',
-                        title: mlm_translations.rewards,
+                        title: 'Rewards',
                         text: text
                     });
                 }

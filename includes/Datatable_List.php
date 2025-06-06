@@ -202,7 +202,7 @@ private function register_user($email, $password, $name, $sponsorid, $phone, $ci
             $this->insert_data('mlm_rewards', $insert_data2);
 
             $date = new \DateTime();
-            $sr_at = $date->modify('+30 day')->format('d.m.Y');
+            $sr_at = $date->modify('+30 day')->format('D.m.Y');
 
             $this->updateData('mlm_users', ['sr_at' => $sr_at], ['unique_id' => $sponsorid]);
 
@@ -286,7 +286,7 @@ private function register_user($email, $password, $name, $sponsorid, $phone, $ci
     $prefix = $wpdb->prefix;
     
     // Устанавливаем часовой пояс для корректной работы с датами
-    $wpdb->query("SET time_zone = '+06:00'");
+    $wpdb->query("SET time_zone = '+05:00'");
     
     $result = $wpdb->get_results("SELECT * FROM {$prefix}mlm_report where type_id = 1 order by created_at desc, id desc", 'ARRAY_A');
 
@@ -299,7 +299,7 @@ public function getAllPayedReportFile()
     $prefix = $wpdb->prefix;
     
     // Устанавливаем часовой пояс для корректной работы с датами
-    $wpdb->query("SET time_zone = '+06:00'");
+    $wpdb->query("SET time_zone = '+05:00'");
     
     $result = $wpdb->get_results("SELECT * FROM {$prefix}mlm_report where type_id = 2 order by created_at desc, id desc", 'ARRAY_A');
 

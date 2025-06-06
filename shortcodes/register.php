@@ -92,7 +92,7 @@ $recaptcha_site_key = get_option('mlm_recaptcha_site_key', '');
         <div class="form-group">
             <label for="distributor_phone"><?php _e('Phone', 'distributor-register'); ?></label>
             <input class="form-control" type="text" name="us_phone" id="distributor_phone" required value="+7 (___) ___-__-__">
-            <div class="phone-error" id="phone-error"><?php _e('Данный номер уже зарегистрирован', 'marketing'); ?></div>
+            <div class="phone-error" id="phone-error">Данный номер уже зарегистрирован</div>
         </div>
 
         <div>
@@ -118,7 +118,7 @@ $recaptcha_site_key = get_option('mlm_recaptcha_site_key', '');
         <?php if ($recaptcha_enabled == 'yes' && !empty($recaptcha_site_key)): ?>
         <div class="recaptcha-container">
             <div class="g-recaptcha" data-sitekey="<?= $recaptcha_site_key ?>"></div>
-            <div class="recaptcha-error" id="recaptcha-error"><?php _e('Пожалуйста, подтвердите, что вы не робот', 'marketing'); ?></div>
+            <div class="recaptcha-error" id="recaptcha-error">Пожалуйста, подтвердите, что вы не робот</div>
         </div>
         <?php endif; ?>
 

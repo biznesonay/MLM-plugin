@@ -81,10 +81,10 @@ $results = $datatable->get_all_transuctions();
             <input type="number" name="mlm_circulation_commodity" id="amount" required readonly>
 
             <input type="hidden" name="action" value="mlm_circulation_commodity">
-            <input type="submit" name="submit" value="<?php _e('Create', 'marketing'); ?>">
+            <input type="submit" name="submit" value="Create">
         </form>
     </div>
-    <h3><?php _e('Transactions Table', 'marketing'); ?></h3>
+    <h3>Transactions Table</h3>
     <table id="transaction" class="ui celled table" style="width:100%">
         <thead>
         <tr>
@@ -110,7 +110,7 @@ $results = $datatable->get_all_transuctions();
                 <td><?= $result->unique_id; ?></td>
                 <td><?= $result->user_name; ?></td>
                 <td><?= $result->post_id ? __('site', 'marketing') : __('direct', 'marketing'); ?></td>
-                <td><?= $result->amount . ' c.u.'; ?></td>
+                <td><?= $result->amount . ' тенге'; ?></td>
                 <td data-order="<?= $result->transuction_date; ?>"><?= $date->format('d.m.Y H:i:s'); ?></td>
             </tr>
             <?php $i++;
@@ -151,17 +151,6 @@ $results = $datatable->get_all_transuctions();
 <?php } ?>
 
 <script>
-var mlm_translations = {
-    are_you_sure: '<?php _e('Are you sure?', 'marketing'); ?>',
-    confirm_create: '<?php _e('Do you wont to create Circulation Commodity', 'marketing'); ?>',
-    yes: '<?php _e('Yes', 'marketing'); ?>',
-    error: '<?php _e('Error', 'marketing'); ?>',
-    success: '<?php _e('Success', 'marketing'); ?>',
-    you_wont_revert: '<?php _e('You wont be able to revert this!', 'marketing'); ?>'
-};
-</script>
-
-<script>
     jQuery(document).ready(function () {
         jQuery('.ui.dropdown').dropdown();
         jQuery('#transaction').DataTable({
@@ -199,7 +188,7 @@ var mlm_translations = {
         jQuery('#circulation-form').submit(function (e) {
             e.preventDefault();
             Swal.fire({
-                title: mlm_translations.are_you_sure,
+                title: "<?php _e('Are you sure?', 'marketing') ?>",
                 text: "<?php _e('Do you wont to create Circulation Commodity', 'marketing') ?>",
                 icon: 'warning',
                 showCancelButton: true,
@@ -241,7 +230,7 @@ var mlm_translations = {
 
     function deleteTransaction(id) {
         Swal.fire({
-            title: mlm_translations.are_you_sure,
+            title: "<?php _e('Are you sure?', 'marketing') ?>",
             text: "<?php _e('You wont be able to revert this!', 'marketing') ?>",
             icon: 'warning',
             showCancelButton: true,

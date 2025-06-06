@@ -112,7 +112,7 @@ class StructureReport
         $prefix = $wpdb->prefix;
         
         // Устанавливаем часовой пояс для MySQL
-        $wpdb->query("SET time_zone = '+06:00'");
+        $wpdb->query("SET time_zone = '+05:00'");
 
         $sql = "SELECT u.*, r.pcc, r.scc, r.dr, r.sr, r.mr, r.br, r.br_car, us.user_name sponsor_name FROM {$prefix}mlm_users as u 
                 left join {$prefix}mlm_users us ON us.unique_id = u.sponsor_id
@@ -129,7 +129,7 @@ class StructureReport
         global $wpdb;
         
         // Устанавливаем часовой пояс для корректного сохранения времени
-        $wpdb->query("SET time_zone = '+06:00'");
+        $wpdb->query("SET time_zone = '+05:00'");
         
         $insert_data = [
             'file_name' => $fileName, 

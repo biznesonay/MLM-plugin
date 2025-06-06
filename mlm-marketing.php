@@ -3,17 +3,13 @@
 Plugin Name: MLM Marketing
 Plugin URI:  https://biznesonay.kz
 Description: This plugin for multi lavel marketing and rank basis reward.
-Version:     1.0.8.9
+Version:     1.0.8.5
 Author:      BiznesOnay
 Author URI:  https://biznesonay.kz
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
-/*
- * Text Domain: marketing
- * Domain Path: /languages
- */
 
 require_once(ABSPATH . 'wp-config.php');
 
@@ -23,14 +19,8 @@ add_action('init', function() {
     
     // Установка часового пояса для MySQL
     global $wpdb;
-    $wpdb->query("SET time_zone = '+06:00'");
+    $wpdb->query("SET time_zone = '+05:00'");
 });
-
-// Загрузка текстового домена для переводов
-function mlm_load_textdomain() {
-    load_plugin_textdomain('marketing', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-}
-add_action('plugins_loaded', 'mlm_load_textdomain');
 
 add_action('admin_menu', 'my_admin_menu');
 
@@ -43,6 +33,7 @@ function my_admin_menu()
     add_submenu_page('mlm-overview', __('Structure Panel', 'marketing'), __('Structure Panel', 'marketing'), 'manage_options', 'mlm-structure-panel', 'structure_panel');
     add_submenu_page('mlm-overview', __('Family Panel', 'marketing'), __('Family Panel', 'marketing'), 'manage_options', 'mlm-family-panel', 'family_tree');
     add_submenu_page('mlm-overview', __('Rewards History', 'marketing'), __('Rewards History', 'marketing'), 'manage_options', 'mlm-rewards-history-panel', 'rewards_history');
+    add_submenu_page('mlm-overview', __('Date of Rank’s Сhange', 'marketing'), __('Date of Rank’s Сhange', 'marketing'), 'manage_options', 'rank', 'rank');
     add_submenu_page(
     'mlm-overview', 
     __('Settings', 'marketing'), 
@@ -59,7 +50,7 @@ function mlm_settings_page() {
         update_option('mlm_recaptcha_site_key', sanitize_text_field($_POST['recaptcha_site_key']));
         update_option('mlm_recaptcha_secret_key', sanitize_text_field($_POST['recaptcha_secret_key']));
         update_option('mlm_recaptcha_enabled', isset($_POST['recaptcha_enabled']) ? 'yes' : 'no');
-        echo '<div class="notice notice-success"><p>' . __('Settings saved!', 'marketing') . '</p></div>';
+        echo '<div class="notice notice-success"><p>Настройки сохранены!</p></div>';
     }
     
     $default_sponsor = get_option('mlm_default_sponsor', 'USER1');
@@ -105,7 +96,7 @@ function mlm_settings_page() {
     <?php
 }
 //    add_submenu_page('mlm-overview', __('Parser', 'marketing'), __('Parser', 'marketing'), 'manage_options', 'parser', 'parser');
-    add_submenu_page('mlm-overview', __('Distributor Panel', 'marketing'), __('Distributor Panel', 'marketing'), 'manage_options', 'mlm-distributor-panel', 'distributor_panel');
+    
 }
 
 function create_plugin_database_table()

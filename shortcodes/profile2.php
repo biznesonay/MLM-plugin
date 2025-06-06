@@ -200,26 +200,11 @@ $reward = $datatable->getUserRewardNotification('USER' . $userId)
     </div>
 
     <div class="user-child">
-        <h1><?php _e('Family panel', 'marketing') ?></h1>
+        <h1><?php _e('Family Panel', 'marketing') ?></h1>
         <div id="tree-container"></div>
     </div>
 </div>
 
-<script>
-var mlm_translations = {
-    error: '<?php _e('Error', 'marketing'); ?>',
-    success: '<?php _e('Success', 'marketing'); ?>',
-    loading: '<?php _e('Loading...', 'marketing'); ?>',
-    search: '<?php _e('Search:', 'marketing'); ?>',
-    show_menu: '<?php _e('Show _MENU_ entries', 'marketing'); ?>',
-    showing_empty: '<?php _e('Showing 0 to 0 of 0 entries', 'marketing'); ?>',
-    no_data: '<?php _e('No data available in table', 'marketing'); ?>',
-    first: '<?php _e('First', 'marketing'); ?>',
-    previous: '<?php _e('Previous', 'marketing'); ?>',
-    next: '<?php _e('Next', 'marketing'); ?>',
-    last: '<?php _e('Last', 'marketing'); ?>'
-};
-</script>
 
 <script>
     const adminAjax = "<?= admin_url('admin-ajax.php'); ?>";
@@ -233,27 +218,27 @@ var mlm_translations = {
         }
 
         function dateFormat(timestamp) {
-    const date = new Date(timestamp * 1000);
-    // Форматируем дату для часового пояса Алматы
-    const options = {
-        ...almatyTimeZone,
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-    };
-    
-    const parts = new Intl.DateTimeFormat('en-US', options).formatToParts(date);
-    const values = {};
-    parts.forEach(part => {
-        values[part.type] = part.value;
-    });
-    
-    return `${values.day}.${values.month}.${values.year} ${values.hour}:${values.minute}:${values.second}`;
-}
+            const date = new Date(timestamp * 1000);
+            // Форматируем дату для часового пояса Алматы
+            const options = {
+                ...almatyTimeZone,
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            
+            const parts = new Intl.DateTimeFormat('en-US', options).formatToParts(date);
+            const values = {};
+            parts.forEach(part => {
+                values[part.type] = part.value;
+            });
+            
+            return `${values.day}.${values.month}.${values.year} ${values.hour}:${values.minute}:${values.second}`;
+        }
 
         const id = jQuery('input[name="login_user_id"]').val();
 

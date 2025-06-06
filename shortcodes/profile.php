@@ -77,8 +77,8 @@
                     ?>
                     <tr>
                         <td><?= $i; ?></td>
-                        <td><?= $transaction->amount . ' c.u.'; ?></td>
-                        <td><?= $date->format('d.m.Y'); ?></td>
+                        <td><?= $transaction->amount . ' тенге'; ?></td>
+                        <td><?= $date->format('F j, Y'); ?></td>
                     </tr>
                     <?php $i++;
                 } ?>

@@ -8,7 +8,7 @@ require_once(__DIR__ . '/../../../../wp-config.php');
 
 // Устанавливаем часовой пояс для MySQL
 global $wpdb;
-$wpdb->query("SET time_zone = '+06:00'");
+$wpdb->query("SET time_zone = '+05:00'");
 
 include (__DIR__ . '/../lib/spreadsheet/lib/vendor/autoload.php');
 include(__DIR__ . '/../services/StructureReport.php');
