@@ -108,13 +108,13 @@ class RewordsHistoryReport
         $monday = clone $now;
         $monday->modify('monday this week');
         $monday->setTime(0, 0, 0);
-        $startWeek = $monday->format('d.m.Y H:i:s');
+        $startWeek = $monday->format('Y-m-d H:i:s');
         
         // Воскресенье этой недели в 23:59:59
         $sunday = clone $now;
         $sunday->modify('sunday this week');
         $sunday->setTime(23, 59, 59);
-        $endWeek = $sunday->format('d.m.Y H:i:s');
+        $endWeek = $sunday->format('Y-m-d H:i:s');
 
         $sql = "SELECT h.amount, h.after_rewords_balance, h.created_at, u.unique_id, u.user_name FROM {$prefix}mlm_rewards_history h ";
         $sql .= "INNER JOIN {$prefix}mlm_users u ON h.user_id = u.unique_id ";

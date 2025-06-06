@@ -33,7 +33,7 @@ function my_admin_menu()
     add_submenu_page('mlm-overview', __('Structure Panel', 'marketing'), __('Structure Panel', 'marketing'), 'manage_options', 'mlm-structure-panel', 'structure_panel');
     add_submenu_page('mlm-overview', __('Family Panel', 'marketing'), __('Family Panel', 'marketing'), 'manage_options', 'mlm-family-panel', 'family_tree');
     add_submenu_page('mlm-overview', __('Rewards History', 'marketing'), __('Rewards History', 'marketing'), 'manage_options', 'mlm-rewards-history-panel', 'rewards_history');
-    add_submenu_page('mlm-overview', __('Date of Rank’s Сhange', 'marketing'), __('Date of Rank’s Сhange', 'marketing'), 'manage_options', 'rank', 'rank');
+    add_submenu_page('mlm-overview', __('Date of Rank’s change', 'marketing'), __('Date of Rank’s change', 'marketing'), 'manage_options', 'rank', 'rank');
     add_submenu_page(
     'mlm-overview', 
     __('Settings', 'marketing'), 
@@ -96,7 +96,6 @@ function mlm_settings_page() {
     <?php
 }
 //    add_submenu_page('mlm-overview', __('Parser', 'marketing'), __('Parser', 'marketing'), 'manage_options', 'parser', 'parser');
-    
 }
 
 function create_plugin_database_table()
