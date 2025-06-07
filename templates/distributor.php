@@ -2,7 +2,10 @@
 $datatable = new Datatable_List();
 $condition = "role = 'distributor' AND rank > 0";
 $sponsors = $datatable->get_all_cond_data('mlm_users', $condition);
-$users = $datatable->get_all_current_distrubutor_city();
+$page = isset($_GET['paged']) ? (int)$_GET['paged'] : 1;
+$users = get_distributors_optimized($page, 50);
+$page = isset($_GET['paged']) ? (int)$_GET['paged'] : 1;
+$users = get_distributors_optimized($page, 50);
 
 ?>
 <div class="jhRf">
@@ -40,7 +43,7 @@ $users = $datatable->get_all_current_distrubutor_city();
             </li>
             <li>
                 <a href="<?= get_admin_url() . 'admin.php?page=rank'; ?>">
-                    <?php _e('Date of Rank’s change', 'marketing') ?>
+                    <?php _e('Date of Rank\'s change', 'marketing') ?>
                 </a>
             </li>
         </ul>

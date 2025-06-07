@@ -506,7 +506,7 @@ msgstr ""
 msgid "Your password must be at least 5 characters long"
 msgstr ""
 
-#msgid "Date of Rank’s change"
+#msgid "Date of Rank\'s change"
 #msgid "Rank"
 #msgid "Date and Time"
 #msgid "User Name"

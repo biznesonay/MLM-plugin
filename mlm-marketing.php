@@ -3,7 +3,7 @@
 Plugin Name: MLM Marketing
 Plugin URI:  https://biznesonay.kz
 Description: This plugin for multi lavel marketing and rank basis reward.
-Version:     1.0.8.5
+Version:     1.0.8.7
 Author:      BiznesOnay
 Author URI:  https://biznesonay.kz
 License:     GPL2
@@ -33,7 +33,7 @@ function my_admin_menu()
     add_submenu_page('mlm-overview', __('Structure Panel', 'marketing'), __('Structure Panel', 'marketing'), 'manage_options', 'mlm-structure-panel', 'structure_panel');
     add_submenu_page('mlm-overview', __('Family Panel', 'marketing'), __('Family Panel', 'marketing'), 'manage_options', 'mlm-family-panel', 'family_tree');
     add_submenu_page('mlm-overview', __('Rewards History', 'marketing'), __('Rewards History', 'marketing'), 'manage_options', 'mlm-rewards-history-panel', 'rewards_history');
-    add_submenu_page('mlm-overview', __('Date of Rank’s Сhange', 'marketing'), __('Date of Rank’s Сhange', 'marketing'), 'manage_options', 'rank', 'rank');
+    add_submenu_page('mlm-overview', __('Date of Rank\'s change', 'marketing'), __('Date of Rank\'s change', 'marketing'), 'manage_options', 'rank', 'rank');
     add_submenu_page(
     'mlm-overview', 
     __('Settings', 'marketing'), 
@@ -96,7 +96,6 @@ function mlm_settings_page() {
     <?php
 }
 //    add_submenu_page('mlm-overview', __('Parser', 'marketing'), __('Parser', 'marketing'), 'manage_options', 'parser', 'parser');
-    
 }
 
 function create_plugin_database_table()
@@ -433,6 +432,9 @@ function add_role_function()
 
 include plugin_dir_path(__FILE__) . 'includes/Datatable_List.php';
 include plugin_dir_path(__FILE__) . 'includes/Reward_Calculator.php';
+// Загрузка оптимизаций
+require_once plugin_dir_path(__FILE__) . 'includes/Plugin_Optimizer_Integration.php';
+Plugin_Optimizer_Integration::init();
 
 function mlm_overview()
 {

@@ -2,7 +2,8 @@
 
 $datatable = new Datatable_List();
 $distributors = $datatable->get_all_current_distrubutor('mlm_users');
-$results = $datatable->get_all_transuctions();
+$page = isset($_GET['paged']) ? (int)$_GET['paged'] : 1;
+$results = get_transactions_optimized($page, 50);
 ?>
 
 <div class="jhRf">
