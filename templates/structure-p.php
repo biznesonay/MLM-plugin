@@ -236,37 +236,6 @@ $payedFiles = $datatable->getAllPayedReportFile();
                 }
             })
         })
-
-        jQuery('#pay').click(function () {
-            const users = [];
-
-            jQuery('.to-select input:checkbox:checked').each(function (index, item) {
-                users.push(jQuery(item).val());
-            });
-
-
-            jQuery.ajax({
-                type: "POST",
-                url: "<?= admin_url('admin-ajax.php'); ?>",
-                data: {'action': "all_circulation", 'users': users},
-                success: function (r) {
-                    console.log(r);
-                    r = JSON.parse(r);
-
-                    jQuery('.prespinner').css('display', 'none');
-                    // jQuery('#trr' + id).fadeOut();
-
-                    Swal.fire({
-                        icon: r.status ? 'success' : 'error',
-                        text: r.message
-                    });
-
-                    if (r.status) {
-                        location.reload();
-                    }
-                }
-            });
-        })
-    });
-
+    });    
 </script>
+<script src="<?= plugins_url('assets/js/pay-job.js', dirname(__DIR__) . '/mlm-marketing.php') ?>"></script> 
