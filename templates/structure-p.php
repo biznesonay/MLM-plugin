@@ -208,21 +208,22 @@ $payedFiles = $datatable->getAllPayedReportFile();
 </div>
 
 <script>
-    jQuery('#structure-table').DataTable({
-        language: {
-            "search": "<?php _e('Search:', 'marketing') ?>",
-            "lengthMenu": "<?php _e('Show _MENU_ entries', 'marketing') ?>",
-            "info": "<?php _e('Showing _START_ to _END_ of _TOTAL_ entries', 'marketing') ?>",
-            "infoEmpty": "<?php _e('Showing 0 to 0 of 0 entries', 'marketing');?>",
-            "emptyTable": "<?php _e('No data available in table', 'marketing'); ?>",
-            "paginate": {
-                "first": "<?php _e('First', 'marketing') ?>",
-                "previous": "<?php _e('Previous', 'marketing'); ?>",
-                "next": "<?php _e('Next', 'marketing') ?>",
-                "last": "<?php _e('Last', 'marketing') ?>",
-            },
-        }
-    });
+   jQuery('#structure-table').DataTable({
+    order: [[13, 'desc']], // Сортировка по столбцу ALLR (индекс 13) по убыванию
+    language: {
+        "search": "<?php _e('Search:', 'marketing') ?>",
+        "lengthMenu": "<?php _e('Show _MENU_ entries', 'marketing') ?>",
+        "info": "<?php _e('Showing _START_ to _END_ of _TOTAL_ entries', 'marketing') ?>",
+        "infoEmpty": "<?php _e('Showing 0 to 0 of 0 entries', 'marketing');?>",
+        "emptyTable": "<?php _e('No data available in table', 'marketing'); ?>",
+        "paginate": {
+            "first": "<?php _e('First', 'marketing') ?>",
+            "previous": "<?php _e('Previous', 'marketing'); ?>",
+            "next": "<?php _e('Next', 'marketing') ?>",
+            "last": "<?php _e('Last', 'marketing') ?>",
+        },
+    }
+});
 
     jQuery(document).ready(function () {
         jQuery('#select-all').click(function () {
