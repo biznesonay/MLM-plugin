@@ -3,7 +3,7 @@
 Plugin Name: MLM Marketing
 Plugin URI:  https://biznesonay.kz
 Description: This plugin for multi lavel marketing and rank basis reward.
-Version:     1.0.8.5
+Version:     1.0.8.6
 Author:      BiznesOnay
 Author URI:  https://biznesonay.kz
 License:     GPL2
@@ -388,7 +388,10 @@ function my_enqueued_assets()
     wp_enqueue_script('sweetalert_js', plugin_dir_url(__FILE__) . 'assets/js/sweetalert2.min.js');
 
     wp_enqueue_script('masked_input', plugin_dir_url(__FILE__) . 'assets/js/masked_input.min.js');
+    wp_enqueue_script('mlm_pay_job', plugin_dir_url(__FILE__) . 'assets/js/pay-job.js', array('jquery'), '1.0.0', true);
+    wp_localize_script('mlm_pay_job', 'mlmPayJob', array('ajaxurl' => admin_url('admin-ajax.php')));
 }
+
 
 add_action('wp_enqueue_scripts', 'frontend_scripts');
 function frontend_scripts()
@@ -536,6 +539,46 @@ function allCirculation() {
 
     echo json_encode($result);
     wp_die();
+}
+
+add_action('wp_ajax_start_all_circulation_job', 'start_all_circulation_job');
+add_action('wp_ajax_get_all_circulation_status', 'get_all_circulation_status');
+add_action('mlm_run_all_circulation_job', 'mlm_run_all_circulation_job', 10, 2);
+
+function start_all_circulation_job() {
+    $users = isset($_POST['users']) ? (array)$_POST['users'] : array();
+    if (empty($users)) {
+        wp_send_json(array('status' => false, 'message' => __('Empty users list', 'marketing')));
+    }
+
+    $job_id = uniqid('ac_', true);
+    set_transient('mlm_job_' . $job_id, array('status' => 'running'), HOUR_IN_SECONDS);
+
+    wp_schedule_single_event(time(), 'mlm_run_all_circulation_job', array($job_id, $users));
+
+    wp_send_json(array('status' => true, 'job_id' => $job_id));
+}
+
+function mlm_run_all_circulation_job($job_id, $users) {
+    include plugin_dir_path(__FILE__) . 'services/RewordHistory.php';
+    $datatable = new RewordHistory();
+    $result = $datatable->allUserRewardHistory($users);
+
+    set_transient('mlm_job_' . $job_id, array('status' => 'completed', 'result' => $result), HOUR_IN_SECONDS);
+}
+
+function get_all_circulation_status() {
+    $job_id = isset($_GET['job_id']) ? sanitize_text_field($_GET['job_id']) : '';
+    if (!$job_id) {
+        wp_send_json(array('status' => 'failed', 'result' => __('Invalid job id', 'marketing')));
+    }
+
+    $data = get_transient('mlm_job_' . $job_id);
+    if (!$data) {
+        wp_send_json(array('status' => 'failed', 'result' => __('Job not found', 'marketing')));
+    }
+
+    wp_send_json($data);
 }
 
 add_action('wp_ajax_get_user_reward', 'getUserReward');
