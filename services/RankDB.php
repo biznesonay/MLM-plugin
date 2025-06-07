@@ -235,23 +235,23 @@ class RankDB
     }
 
     public static function getUserPatents(string $uniqueId)
-    {
-        global $wpdb;
+{
+    global $wpdb;
 
-        $sql = "WITH RECURSIVE rec(id, unique_id, sponsor_id, rank,  pcc, scc, dr, sr, mr, scc_second, sr_at) AS ( 
-             SELECT  id, unique_id, sponsor_id, rank, 0, 0, 0, 0, 0, 0, sr_at FROM {$wpdb->prefix}mlm_users AS tmp WHERE unique_id = '{$uniqueId}'
-             UNION ALL
-             SELECT u.id, u.unique_id, u.sponsor_id, u.rank, rew.pcc, rew.scc, rew.dr, rew.sr, rew.mr, rew.scc_second, u.sr_at FROM rec
-             INNER JOIN {$wpdb->prefix}mlm_users as u ON rec.sponsor_id = u.unique_id
-             INNER JOIN {$wpdb->prefix}mlm_rewards AS rew ON rew.mlm_user_id = u.unique_id
-        ) ";
+    $sql = "WITH RECURSIVE rec(id, unique_id, sponsor_id, rank, pcc, scc, dr, sr, mr, scc_second, sr_at) AS ( 
+         SELECT  id, unique_id, sponsor_id, rank, 0, 0, 0, 0, 0, 0, sr_at FROM {$wpdb->prefix}mlm_users AS tmp WHERE unique_id = '{$uniqueId}'
+         UNION ALL
+         SELECT u.id, u.unique_id, u.sponsor_id, u.rank, rew.pcc, rew.scc, rew.dr, rew.sr, rew.mr, rew.scc_second, u.sr_at FROM rec
+         INNER JOIN {$wpdb->prefix}mlm_users as u ON rec.sponsor_id = u.unique_id
+         INNER JOIN {$wpdb->prefix}mlm_rewards AS rew ON rew.mlm_user_id = u.unique_id
+    ) ";
 
-        $sql .= "SELECT * FROM rec WHERE unique_id != '{$uniqueId}' ORDER BY id ASC;";
+    $sql .= "SELECT * FROM rec WHERE unique_id != '{$uniqueId}' ORDER BY id ASC;";
 
-        $result = $wpdb->get_results($sql, 'ARRAY_A');
+    $result = $wpdb->get_results($sql, 'ARRAY_A');
 
-        return $result ?: [];
-    }
+    return $result ?: [];
+}
 
     public static function getUserChildren(string $uniqueId)
     {
