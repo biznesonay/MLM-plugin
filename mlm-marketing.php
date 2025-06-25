@@ -298,7 +298,7 @@ function create_plugin_database_table()
 
         $cities = [
             'Алматы',
-            'Нур-Султан',
+            'Астана',
             'Шымкент',
             'Актобе',
             'Караганда',
